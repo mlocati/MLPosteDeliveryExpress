@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>ml-poste-delivery-express</PackageId>
+    <Title>MLPosteDeliveryExpress</Title>
+    <Authors>mlocati</Authors>
+    <Company>mlocati</Company>
+    <Description>An unofficial library to use the API of the Poste Italiane Delivery Express service</Description>
+    <Copyright>Michele Locati</Copyright>
+    <PackageProjectUrl>https://github.com/mlocati/MLPosteDeliveryExpress</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/mlocati/MLPosteDeliveryExpress</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Poste;Italiane;PosteItaliane;Delivery;Express;DeliveryExpress</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>0.0.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
