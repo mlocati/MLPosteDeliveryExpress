@@ -8,6 +8,8 @@ namespace MLPosteDeliveryExpress.Waybill.Request
 {
     public class Container
     {
+        public const string SANDBOX_COST_CENTER_CODE = "CDC-00070964";
+
         /// <summary>
         /// Codice del centro di costo.
         /// </summary>
