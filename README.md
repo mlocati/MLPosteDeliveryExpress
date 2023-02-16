@@ -113,7 +113,7 @@ waybill.Data.Declared.Add(new()
 });
 var request = new MLPosteDeliveryExpress.Waybill.Request.Container
 {
-    CostCenterCode = MLPosteDeliveryExpress.Options.Sandbox ? MLPosteDeliveryExpress.Waybill.Request.Container.SANDBOX_COST_CENTER_CODE : account.CostCenterCode,
+    CostCenterCode = MLPosteDeliveryExpress.Options.Sandbox ? MLPosteDeliveryExpress.Account.SANDBOX_COST_CENTER_CODE : account.CostCenterCode,
     ShipmentDate = new DateTime(2020, 11, 26, 09, 2, 20, 986),
 };
 request.Waybills.Add(waybill);

@@ -2,6 +2,8 @@
 {
     public class Account
     {
+        public const string SANDBOX_COST_CENTER_CODE = "CDC-00070964";
+
         public string DisplayName { get; set; }
 
         public string ClientID { get; set; }
