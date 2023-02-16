@@ -68,6 +68,41 @@ var waybill = new MLPosteDeliveryExpress.Waybill.Request.Waybill()
     ClientReferenceId = "12312312341",
     Product = MLPosteDeliveryExpress.AptusCode.PosteDeliveryBusinessExpress,
     PrintFormat = MLPosteDeliveryExpress.Waybill.PrintFormat.PDF_A4,
+    Data = new()
+    {
+        Content = "contenuto",
+        Sender = new()
+        {
+            FirstLastName = "Mario Rossi",
+            Street = "Viale Europa",
+            StreetNumber = "192",
+            ZipCode = "00142",
+            City = "ROMA",
+            StateOrProvince = "RM",
+            CountryISO4 = "ITA1",
+            CountryName = "Italia",
+            Email = "mail@mail.it",
+            Phone = "37747383787287",
+            Notes1 = "sender note 1",
+            Notes2 = "sender note 2",
+        },
+        Receiver = new()
+        {
+            FirstLastName = "Ditta test",
+            ContactName = "Aldo Bianchi",
+            ZipCode = "80010",
+            Street = "VIALE DEL TRAMONTO 10",
+            StreetNumber = "27",
+            City = "NAPOLI",
+            StateOrProvince = "RM",
+            CountryISO4 = "ITA1",
+            CountryName = "Italia",
+            Email = "mail@mail.it",
+            Phone = "11111111111",
+            Notes1 = "note spedizione 1",
+            Notes2 = "note spedizione 2",
+        }
+    }
 };
 waybill.Data.Declared.Add(new()
 {
@@ -76,41 +111,9 @@ waybill.Data.Declared.Add(new()
     Length = 10,
     Weight = 10,
 });
-waybill.Data.Content = "contenuto";
-waybill.Data.Sender = new()
-{
-    FirstLastName = "Mario Rossi",
-    Street = "Viale Europa",
-    StreetNumber = "192",
-    ZipCode = "00142",
-    City = "ROMA",
-    StateOrProvince = "RM",
-    CountryISO4 = "ITA1",
-    CountryName = "Italia",
-    Email = "mail@mail.it",
-    Phone = "37747383787287",
-    Notes1 = "sender note 1",
-    Notes2 = "sender note 2",
-};
-waybill.Data.Receiver = new()
-{
-    FirstLastName = "Ditta test",
-    ContactName = "Aldo Bianchi",
-    ZipCode = "80010",
-    Street = "VIALE DEL TRAMONTO 10",
-    StreetNumber = "27",
-    City = "NAPOLI",
-    StateOrProvince = "RM",
-    CountryISO4 = "ITA1",
-    CountryName = "Italia",
-    Email = "mail@mail.it",
-    Phone = "11111111111",
-    Notes1 = "note spedizione 1",
-    Notes2 = "note spedizione 2",
-};
 var request = new MLPosteDeliveryExpress.Waybill.Request.Container
 {
-    CostCenterCode = account.CostCenterCode,
+    CostCenterCode = MLPosteDeliveryExpress.Options.Sandbox ? MLPosteDeliveryExpress.Waybill.Request.Container.SANDBOX_COST_CENTER_CODE : account.CostCenterCode,
     ShipmentDate = new DateTime(2020, 11, 26, 09, 2, 20, 986),
 };
 request.Waybills.Add(waybill);
