@@ -1,8 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 
 namespace MLPosteDeliveryExpress
 {
-    public class Account
+    public class Account : ICloneable
     {
         public const string SANDBOX_COST_CENTER_CODE = "CDC-00070964";
 
@@ -20,6 +21,11 @@ namespace MLPosteDeliveryExpress
             this.ClientID = clientID;
             this.ClientSecret = clientSecret;
             this.CostCenterCode = costCenterCode;
+        }
+
+        public object Clone()
+        {
+            return new Account(this.ClientID, this.ClientID, this.CostCenterCode);
         }
     }
 }
