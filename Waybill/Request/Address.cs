@@ -1,10 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace MLPosteDeliveryExpress.Waybill.Request
 {
-    public class Address
+    public class Address : ICloneable
     {
         /// <summary>
         /// Nome del referente.
@@ -137,5 +138,27 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         [JsonPropertyName("note2")]
         [DisplayName("Notes (2)")]
         public string? Notes2 { get; set; } = null;
+
+        public object Clone()
+        {
+            return new Address()
+            {
+                ContactName = this.ContactName,
+                FirstLastName = this.FirstLastName,
+                Street = this.Street,
+                StreetNumber = this.StreetNumber,
+                ZipCode = this.ZipCode,
+                City = this.City,
+                StateOrProvince = this.StateOrProvince,
+                CountryISO4 = this.CountryISO4,
+                CountryName = this.CountryName,
+                Email = this.Email,
+                Phone = this.Phone,
+                MobilePhone = this.MobilePhone,
+                AddressId = this.AddressId,
+                Notes1 = this.Notes1,
+                Notes2 = this.Notes2,
+            };
+        }
     }
 }
