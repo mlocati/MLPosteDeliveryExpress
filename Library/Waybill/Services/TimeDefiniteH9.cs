@@ -4,9 +4,9 @@ namespace MLPosteDeliveryExpress.Waybill.Services
 {
     public class TimeDefiniteH9 : ServiceWithoutParameters<TimeDefiniteH9>, IService
     {
-        public bool? DataInWaybill => true;
         public string Code => "APT000905";
         public string Name => "Time Definite Ore 9";
+        public ServiceFlags Flags => ServiceFlags.InWaybill;
 
         public TimeDefiniteH9()
         {

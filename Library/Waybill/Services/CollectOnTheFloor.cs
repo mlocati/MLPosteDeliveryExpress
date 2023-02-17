@@ -5,9 +5,9 @@ namespace MLPosteDeliveryExpress.Waybill.Services
 {
     public class CollectOnTheFloor : ServiceWithStringParameters<CollectOnTheFloor>, IService
     {
-        public bool? DataInWaybill => true;
         public string Code => "APT000917";
         public string Name => "Ritiro al piano";
+        public ServiceFlags Flags => ServiceFlags.InWaybill;
 
         public readonly bool ElevatorExists;
 

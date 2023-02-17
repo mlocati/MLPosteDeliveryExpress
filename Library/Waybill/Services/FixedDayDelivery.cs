@@ -15,9 +15,9 @@ namespace MLPosteDeliveryExpress.Waybill.Services
             Afternoon,
         };
 
-        public bool? DataInWaybill => true;
         public string Code => "APT000912";
         public string Name => "Consegna a giorno - Orario definito (aka Consegna a giorno Stabilito)";
+        public ServiceFlags Flags => ServiceFlags.InWaybill;
 
         public readonly int Day;
         public readonly int Month;

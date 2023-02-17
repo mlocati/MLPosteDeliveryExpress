@@ -4,9 +4,9 @@ namespace MLPosteDeliveryExpress.Waybill.Services
 {
     public class DeliveryOnSaturnday : ServiceWithoutParameters<DeliveryOnSaturnday>, IService
     {
-        public bool? DataInWaybill => true;
         public string Code => "APT000910";
         public string Name => "Consegna di Sabato";
+        public ServiceFlags Flags => ServiceFlags.InWaybill;
 
         public DeliveryOnSaturnday()
         {

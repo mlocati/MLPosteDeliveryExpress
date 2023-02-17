@@ -7,7 +7,7 @@ namespace MLPosteDeliveryExpress.Waybill.Request
     [System.Text.Json.Serialization.JsonConverter(typeof(WaybillDataServicesConverter))]
     public class WaybillDataServices : IEquatable<WaybillDataServices>
     {
-        private Dictionary<string, Services.IService> RegisteredServices = new();
+        private readonly Dictionary<string, Services.IService> RegisteredServices = new();
 
         public WaybillDataServices()
         { }
@@ -62,6 +62,16 @@ namespace MLPosteDeliveryExpress.Waybill.Request
             }
 
             return true;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as WaybillDataServices);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.RegisteredServices.GetHashCode();
         }
     }
 }

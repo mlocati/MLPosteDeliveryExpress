@@ -4,9 +4,9 @@ namespace MLPosteDeliveryExpress.Waybill.Services
 {
     public class CollectByAppointment : ServiceWithoutParameters<CollectByAppointment>, IService
     {
-        public bool? DataInWaybill => null;
         public string Code => "APT000915";
         public string Name => "Ritiro su appuntamento";
+        public ServiceFlags Flags => ServiceFlags.None;
 
         public CollectByAppointment()
         {

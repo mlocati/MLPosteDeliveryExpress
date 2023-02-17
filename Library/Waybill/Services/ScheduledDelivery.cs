@@ -62,9 +62,9 @@ namespace MLPosteDeliveryExpress.Waybill.Services
             }
         }
 
-        public bool? DataInWaybill => true;
         public string Code => "APT000909";
         public string Name => "Consegna programmata";
+        public ServiceFlags Flags => ServiceFlags.InWaybill;
 
         public readonly Day Days;
 

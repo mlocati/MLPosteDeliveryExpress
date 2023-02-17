@@ -5,9 +5,9 @@ namespace MLPosteDeliveryExpress.Waybill.Services
 {
     public class DeliveryToTheNeighbour : ServiceWithStringParameters<DeliveryToTheNeighbour>, IService
     {
-        public bool? DataInWaybill => null;
         public string Code => "APT000914";
         public string Name => "Consegna al vicino";
+        public ServiceFlags Flags => ServiceFlags.None;
 
         public readonly string NeighbourName;
 

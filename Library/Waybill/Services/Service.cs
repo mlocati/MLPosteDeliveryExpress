@@ -10,8 +10,9 @@ namespace MLPosteDeliveryExpress.Waybill.Services
 
         public readonly Type Type;
         private readonly IService EmptyInstance;
-        public bool? DataInWaybill { get => this.EmptyInstance.DataInWaybill; }
         public string Code { get => this.EmptyInstance.Code; }
+        public string Name { get => this.EmptyInstance.Name; }
+        public ServiceFlags Flags { get => this.EmptyInstance.Flags; }
 
         private Service(Type type, IService emptyInstance)
         {
@@ -80,6 +81,10 @@ namespace MLPosteDeliveryExpress.Waybill.Services
                     throw new Exception($"The IService {type.Name} isn't actually an IService?");
                 }
                 var service = new Service(type, emptyInstance);
+                if (dictionary.ContainsKey(service.Code))
+                {
+                    throw new Exception($"The IService {type.Name} and the IService {dictionary[service.Code].Type.Name} share the same code ({service.Code})");
+                }
                 dictionary.Add(service.Code, service);
             }
             return dictionary;

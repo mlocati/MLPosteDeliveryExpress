@@ -4,9 +4,9 @@ namespace MLPosteDeliveryExpress.Waybill.Services
 {
     public class DeliveryOnAppointment : ServiceWithoutParameters<DeliveryOnAppointment>, IService
     {
-        public bool? DataInWaybill => true;
         public string Code => "APT000908";
         public string Name => "Consegna su appuntamento";
+        public ServiceFlags Flags => ServiceFlags.InWaybill;
 
         public DeliveryOnAppointment()
         {
