@@ -27,7 +27,7 @@ namespace Test
                 new Services.DeliveryToTheNeighbour("Mario Rossi"),
                 new Services.CollectByAppointment(),
                 new Services.CollectOnTheFloor(true),
-                new Services.CashOnDelivery(789456.89M, Services.CashOnDelivery.PaymentModes.BackCheck),
+                new Services.CashOnDelivery(789456.89M, Services.CashOnDelivery.PaymentModes.BankCheck),
                 new Services.FullCoverageItaly(741.99M),
                 new Services.ReverseAtHome(),
                 new Services.RoundTrip(),

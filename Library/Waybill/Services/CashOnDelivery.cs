@@ -23,7 +23,7 @@ namespace MLPosteDeliveryExpress.Waybill.Services
             /// <summary>
             /// Assegno bancario intestato al mittente.
             /// </summary>
-            BackCheck,
+            BankCheck,
         }
 
         public string Code => "APT000918";
@@ -87,7 +87,7 @@ namespace MLPosteDeliveryExpress.Waybill.Services
             {
                 PaymentModes.Cash => "CON",
                 PaymentModes.CashiersCheck => "ACM",
-                PaymentModes.BackCheck => "ABM",
+                PaymentModes.BankCheck => "ABM",
                 _ => throw new ArgumentOutOfRangeException(nameof(paymentMode)),
             };
         }
@@ -98,7 +98,7 @@ namespace MLPosteDeliveryExpress.Waybill.Services
             {
                 "CON" => PaymentModes.Cash,
                 "ACM" => PaymentModes.CashiersCheck,
-                "ABM" => PaymentModes.BackCheck,
+                "ABM" => PaymentModes.BankCheck,
                 _ => throw new InvalidDataException(),
             };
         }
