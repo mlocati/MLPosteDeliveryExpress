@@ -1,10 +1,11 @@
 ﻿using MLPosteDeliveryExpress.Json.Converter;
+using System;
 using System.Collections.Generic;
 
 namespace MLPosteDeliveryExpress.Waybill.Request
 {
     [System.Text.Json.Serialization.JsonConverter(typeof(WaybillDataServicesConverter))]
-    public class WaybillDataServices
+    public class WaybillDataServices : IEquatable<WaybillDataServices>
     {
         private Dictionary<string, Services.IService> RegisteredServices = new();
 
@@ -35,6 +36,32 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         public ICollection<Services.IService> GetAll()
         {
             return this.RegisteredServices.Values;
+        }
+
+        public bool Equals(WaybillDataServices? other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (this.RegisteredServices.Count != other.RegisteredServices.Count)
+            {
+                return false;
+            }
+            foreach (var kv in this.RegisteredServices)
+            {
+                if (!other.RegisteredServices.ContainsKey(kv.Key))
+                {
+                    return false;
+                }
+                var otherService = other.RegisteredServices[kv.Key];
+                if (!otherService.Equals(kv.Value))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

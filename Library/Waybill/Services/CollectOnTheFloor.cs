@@ -40,5 +40,14 @@ namespace MLPosteDeliveryExpress.Waybill.Services
             dictionary.CheckEmpty();
             return new(elevatorExists);
         }
+
+        public bool Equals(IService? other)
+        {
+            if (other is not CollectOnTheFloor sameClassOther)
+            {
+                return false;
+            }
+            return sameClassOther.ElevatorExists == this.ElevatorExists;
+        }
     }
 }

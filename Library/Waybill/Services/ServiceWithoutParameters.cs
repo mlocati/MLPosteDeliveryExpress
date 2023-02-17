@@ -20,5 +20,10 @@ namespace MLPosteDeliveryExpress.Waybill.Services
                 throw new InvalidDataException();
             }
         }
+
+        public bool Equals(IService? other)
+        {
+            return other is T;
+        }
     }
 }

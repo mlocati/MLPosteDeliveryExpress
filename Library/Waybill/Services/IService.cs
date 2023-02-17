@@ -1,8 +1,9 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 
 namespace MLPosteDeliveryExpress.Waybill.Services
 {
-    public interface IService
+    public interface IService : IEquatable<IService>
     {
         public abstract bool? DataInWaybill { get; }
         public abstract string Code { get; }

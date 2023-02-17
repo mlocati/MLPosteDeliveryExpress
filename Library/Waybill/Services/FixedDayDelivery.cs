@@ -108,5 +108,17 @@ namespace MLPosteDeliveryExpress.Waybill.Services
                 _ => throw new ArgumentOutOfRangeException(nameof(timeSlot)),
             };
         }
+
+        public bool Equals(IService? other)
+        {
+            if (other is not FixedDayDelivery sameClassOther)
+            {
+                return false;
+            }
+            return sameClassOther.Day == this.Day
+                && sameClassOther.Month == this.Month
+                && sameClassOther.Time == this.Time
+            ;
+        }
     }
 }

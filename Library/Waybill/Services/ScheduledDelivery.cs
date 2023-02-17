@@ -7,14 +7,14 @@ namespace MLPosteDeliveryExpress.Waybill.Services
 {
     public class ScheduledDelivery : ServiceWithStringParameters<ScheduledDelivery>, IService
     {
-        public enum Hour
+        public enum Hour : byte
         {
-            No,
-            Morning,
-            Afternoon,
+            No = 0,
+            Morning = 1,
+            Afternoon = 2,
         };
 
-        public class Day
+        public class Day : IEquatable<Day>
         {
             public readonly Hour Monday;
             public readonly Hour Tuesday;
@@ -29,6 +29,36 @@ namespace MLPosteDeliveryExpress.Waybill.Services
                 this.Wednesday = wednesday;
                 this.Thursday = thursday;
                 this.Friday = friday;
+            }
+
+            public bool Equals(Day? other)
+            {
+                if (other == null)
+                {
+                    return false;
+                }
+                return other.Monday == this.Monday
+                    && other.Tuesday == this.Tuesday
+                    && other.Wednesday == this.Wednesday
+                    && other.Thursday == this.Thursday
+                    && other.Friday == this.Friday
+                ;
+            }
+
+            public override bool Equals(object? obj)
+            {
+                return this.Equals(obj as Day);
+            }
+
+            public override int GetHashCode()
+            {
+                return 0
+                    + (((int)this.Monday) << 0)
+                    + (((int)this.Tuesday) << 2)
+                    + (((int)this.Wednesday << 4))
+                    + (((int)this.Thursday << 8))
+                    + (((int)this.Friday << 16))
+                ;
             }
         }
 
@@ -114,6 +144,17 @@ namespace MLPosteDeliveryExpress.Waybill.Services
                 Hour.Afternoon => '2',
                 _ => throw new ArgumentOutOfRangeException(nameof(hour)),
             };
+        }
+
+        public bool Equals(IService? other)
+        {
+            if (other is not ScheduledDelivery sameClassOther)
+            {
+                return false;
+            }
+            return sameClassOther.Days.Equals(this.Days)
+                && sameClassOther.TimeSlotsDescription == this.TimeSlotsDescription
+            ;
         }
     }
 }

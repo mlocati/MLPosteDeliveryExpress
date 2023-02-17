@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MLPosteDeliveryExpress", "Library\MLPosteDeliveryExpress.csproj", "{37B9B86A-973C-478D-A395-158BD314D9E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{025FAA11-3A69-4DE0-86B9-CB6DA2A66518}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{37B9B86A-973C-478D-A395-158BD314D9E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37B9B86A-973C-478D-A395-158BD314D9E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37B9B86A-973C-478D-A395-158BD314D9E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{025FAA11-3A69-4DE0-86B9-CB6DA2A66518}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{025FAA11-3A69-4DE0-86B9-CB6DA2A66518}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{025FAA11-3A69-4DE0-86B9-CB6DA2A66518}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{025FAA11-3A69-4DE0-86B9-CB6DA2A66518}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Text.Json;
 
 namespace MLPosteDeliveryExpress.Waybill.Services
@@ -39,6 +38,15 @@ namespace MLPosteDeliveryExpress.Waybill.Services
             var neighbourName = dictionary.Pop("neighbourName");
             dictionary.CheckEmpty();
             return new(neighbourName);
+        }
+
+        public bool Equals(IService? other)
+        {
+            if (other is not DeliveryToTheNeighbour sameClassOther)
+            {
+                return false;
+            }
+            return sameClassOther.NeighbourName == this.NeighbourName;
         }
     }
 }
