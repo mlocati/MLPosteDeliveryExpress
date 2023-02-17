@@ -25,7 +25,7 @@ namespace MLPosteDeliveryExpress
 
         public object Clone()
         {
-            return new Account(this.ClientID, this.ClientID, this.CostCenterCode);
+            return new Account(this.ClientID, this.ClientSecret, this.CostCenterCode);
         }
     }
 }
