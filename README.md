@@ -1,3 +1,5 @@
+[![Tests](https://github.com/mlocati/MLPosteDeliveryExpress/actions/workflows/test.yml/badge.svg)](https://github.com/mlocati/MLPosteDeliveryExpress/actions/workflows/test.yml)
+
 # MLocati's C# library to work with Poste Italiane Delivery Express API
 
 This project contains an *UNOFFICIAL* library to use the Poste Italiane Delivery Express API.
