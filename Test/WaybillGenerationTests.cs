@@ -1,3 +1,4 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MLPosteDeliveryExpress;
 using MLPosteDeliveryExpress.Waybill;
 using MLPosteDeliveryExpress.Waybill.Request;
@@ -8,7 +9,7 @@ using System.Text.RegularExpressions;
 namespace Test
 {
     [TestClass]
-    public class WaybillGeneration
+    public class WaybillGenerationTests
     {
         [TestMethod]
         public void GenerationWorks()
