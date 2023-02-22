@@ -10,7 +10,7 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         /// </summary>
         [MaxLength(25)]
         [JsonPropertyName("clientReferenceId")]
-        public string? ClientReferenceId { get; set; } = null;
+        public string ClientReferenceId { get; set; } = "";
 
         /// <summary>
         /// Parametro che indica il formato della LDV da stampare.

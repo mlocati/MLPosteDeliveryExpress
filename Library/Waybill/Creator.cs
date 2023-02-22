@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -7,7 +8,8 @@ namespace MLPosteDeliveryExpress.Waybill
 {
     public class Creator
     {
-        private static readonly Lazy<JsonSerializerOptions> JsonSerializerOptionsCreator = new(() => new JsonSerializerOptions()
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly Lazy<JsonSerializerOptions> JsonSerializerOptionsCreator = new(() => new JsonSerializerOptions()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             IncludeFields = true,

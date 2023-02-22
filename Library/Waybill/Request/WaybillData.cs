@@ -23,7 +23,7 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         /// </summary>
         [MaxLength(30)]
         [JsonPropertyName("content")]
-        public string? Content { get; set; } = null;
+        public string Content { get; set; } = "";
 
         /// <summary>
         /// Può essere vuoto ({}).

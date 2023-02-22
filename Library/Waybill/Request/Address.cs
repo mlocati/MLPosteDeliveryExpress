@@ -14,7 +14,7 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         [MaxLength(35)]
         [JsonPropertyName("contactName")]
         [DisplayName("Contact Name")]
-        public string? ContactName { get; set; } = null;
+        public string ContactName { get; set; } = "";
 
         /// <summary>
         /// Nome e cognome.
@@ -38,7 +38,7 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         [MaxLength(4)]
         [JsonPropertyName("streetNumber")]
         [DisplayName("Street Number")]
-        public string? StreetNumber { get; set; } = null;
+        public string StreetNumber { get; set; } = "";
 
         /// <summary>
         /// CAP.
@@ -65,7 +65,7 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         [MaxLength(2)]
         [JsonPropertyName("province")]
         [DisplayName("State/Province")]
-        public string? StateOrProvince { get; set; } = null;
+        public string StateOrProvince { get; set; } = "";
 
         /// <summary>
         /// Codice nazione ISO 4.
@@ -92,7 +92,7 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         [EmailAddress()]
         [JsonPropertyName("email")]
         [DisplayName("Email")]
-        public string? Email { get; set; } = null;
+        public string Email { get; set; } = "";
 
         /// <summary>
         /// Telefono.
@@ -102,7 +102,7 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         [RegularExpression(@"^\+?[0-9]{1,15}$")]
         [JsonPropertyName("phone")]
         [DisplayName("Phone")]
-        public string? Phone { get; set; } = null;
+        public string Phone { get; set; } = "";
 
         /// <summary>
         /// Cellulare.
@@ -111,14 +111,14 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         [RegularExpression(@"^\+?[0-9]{1,15}$")]
         [JsonPropertyName("cellphone")]
         [DisplayName("Mobile phone")]
-        public string? MobilePhone { get; set; } = null;
+        public string MobilePhone { get; set; } = "";
 
         /// <summary>
         /// Id Geopost.
         /// </summary>
         [JsonPropertyName("addressId")]
         [DisplayName("ID Geopost")]
-        public string? AddressId { get; set; } = null;
+        public string AddressId { get; set; } = "";
 
         /// <summary>
         /// Campo a disposizione dell'utente.
@@ -128,7 +128,7 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         [MaxLength(30)]
         [JsonPropertyName("note1")]
         [DisplayName("Notes (1)")]
-        public string? Notes1 { get; set; } = null;
+        public string Notes1 { get; set; } = "";
 
         /// <summary>
         /// Campo a disposizione dell'utente.
@@ -137,7 +137,7 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         [MaxLength(30)]
         [JsonPropertyName("note2")]
         [DisplayName("Notes (2)")]
-        public string? Notes2 { get; set; } = null;
+        public string Notes2 { get; set; } = "";
 
         public object Clone()
         {

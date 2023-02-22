@@ -19,7 +19,8 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         /// Se true non viene restituita la stampa della lettera di vettura.
         /// </summary>
         [JsonPropertyName("paperless")]
-        public bool? Paperless { get; set; } = null;
+        [JsonConverter(typeof(BooleanAsString))]
+        public bool Paperless { get; set; } = false;
 
         /// <summary>
         /// Data della spedizione.

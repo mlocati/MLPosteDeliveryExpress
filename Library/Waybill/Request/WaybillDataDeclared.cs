@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MLPosteDeliveryExpress.Json.Converter;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -10,24 +11,28 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         /// Espresso in grammi. Viene controllato che sia un numero intero maggiore di 0 (non previse cifre decimali).
         /// </summary>
         [JsonPropertyName("weight")]
+        [JsonConverter(typeof(UIntAsString))]
         public uint Weight { get; set; } = 0;
 
         /// <summary>
         /// Espressa in centimetri. Viene controllato che sia un numero intero maggiore di 0 (non previse cifre decimali).
         /// </summary>
         [JsonPropertyName("height")]
+        [JsonConverter(typeof(UIntAsString))]
         public uint Height { get; set; } = 0;
 
         /// <summary>
         /// Espressa in centimetri. Viene controllato che sia un numero intero maggiore di 0 (non previse cifre decimali).
         /// </summary>
         [JsonPropertyName("length")]
+        [JsonConverter(typeof(UIntAsString))]
         public uint Length { get; set; } = 0;
 
         /// <summary>
         /// Espressa in centimetri. Viene controllato che sia un numero intero maggiore di 0 (non previse cifre decimali).
         /// </summary>
         [JsonPropertyName("width")]
+        [JsonConverter(typeof(UIntAsString))]
         public uint Width { get; set; } = 0;
 
         /// <summary>
