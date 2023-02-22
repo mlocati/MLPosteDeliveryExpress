@@ -11,11 +11,7 @@ namespace MLPosteDeliveryExpress.Json.Converter
 
         public override TEnum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            var stringValue = reader.GetString();
-            if (stringValue == null)
-            {
-                throw new InvalidDataException();
-            }
+            var stringValue = reader.GetString() ?? throw new InvalidDataException();
             return Map.Value.StringToEnum[stringValue];
         }
 

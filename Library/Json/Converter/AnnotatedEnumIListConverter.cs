@@ -35,11 +35,7 @@ namespace MLPosteDeliveryExpress.Json.Converter
                 {
                     return result;
                 }
-                var token = reader.GetString();
-                if (token == null)
-                {
-                    throw new InvalidDataException();
-                }
+                var token = reader.GetString() ?? throw new InvalidDataException();
                 result.Add(stringToEnum[token]);
                 if (!reader.Read())
                 {

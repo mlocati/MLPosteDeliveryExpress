@@ -20,7 +20,9 @@ namespace MLPosteDeliveryExpress.Waybill.Services
             this.NodeName = nodeName;
         }
 
+#pragma warning disable IDE0060 // Remove unused parameter
         public void Serialize(Utf8JsonWriter writer, JsonSerializerOptions options)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
             this.WriteDictionary(
                 writer,

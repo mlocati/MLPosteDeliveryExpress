@@ -121,12 +121,7 @@ namespace MLPosteDeliveryExpress.Service
                 throw new HttpRequestException($"Invalid response code when invoking {relativePath}.\n.Response code: ({response.StatusCode})\n{responseText}");
             }
             Options.OnVerboseOutput(this, responseText);
-            var parsedResponse = JsonSerializer.Deserialize<T>(responseText);
-            if (parsedResponse == null)
-            {
-                throw new HttpRequestException($"Invalid response when invoking {relativePath}");
-            }
-            return parsedResponse;
+            return JsonSerializer.Deserialize<T>(responseText) ?? throw new HttpRequestException($"Invalid response when invoking {relativePath}");
         }
 
         private HttpClient CreateClient()
