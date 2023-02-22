@@ -14,6 +14,7 @@ jobs:
       matrix:
         dotnet-version:
           - '6.0'
+          - '7.0'
     name: Build & Test with .Net${{ matrix.dotnet-version }}
     runs-on: windows-latest
     steps:
@@ -26,8 +27,8 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Build Release
-        run: dotnet build --nologo --no-restore --configuration Release
+        run: dotnet build --nologo --no-restore --framework net${{ matrix.dotnet-version }} --configuration Release
       - name: Build Debug
-        run: dotnet build --nologo --no-restore --configuration Debug
+        run: dotnet build --nologo --no-restore --framework net${{ matrix.dotnet-version }} --configuration Debug
       - name: Test
-        run: dotnet test --nologo --no-build --verbosity normal
+        run: dotnet test --nologo --no-build --framework net${{ matrix.dotnet-version }} --verbosity normal
