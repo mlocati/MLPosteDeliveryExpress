@@ -15,8 +15,7 @@ namespace Test
         [TestMethod]
         public void GenerationWorks()
         {
-            Options.Sandbox = true;
-            var account = new Account("my-client-it", "my-client-secret", "my-cost-center-code");
+            var account = Account.Sandbox;
             var waybill = new Waybill()
             {
                 ClientReferenceId = "12312312341",
@@ -68,7 +67,7 @@ namespace Test
             });
             var request = new Container
             {
-                CostCenterCode = Account.SANDBOX_COST_CENTER_CODE,
+                CostCenterCode = account.CostCenterCode,
                 ShipmentDate = new DateTime(2020, 11, 26, 8, 2, 20, 986, DateTimeKind.Utc).ToLocalTime(),
             };
             request.Waybills.Add(waybill);
@@ -164,7 +163,7 @@ namespace Test
         {
             if (keyPrefix.EndsWith('.'))
             {
-                keyPrefix = keyPrefix.Substring(0, keyPrefix.Length - 1);
+                keyPrefix = keyPrefix[..^1];
             }
             Assert.AreEqual(expected.Count(), actual.Count(), $"Wrong array count at key {keyPrefix}");
             expected.Reset();

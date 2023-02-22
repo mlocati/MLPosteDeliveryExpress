@@ -5,14 +5,14 @@ namespace MLPosteDeliveryExpress.Taric
 {
     public class Fetcher
     {
-        public static Response Fetch(Account account)
+        public static Response Fetch(IAccount account)
         {
             using var fetcher = FetchAsync(account);
             fetcher.Wait();
             return fetcher.Result;
         }
 
-        public static async Task<Response> FetchAsync(Account account)
+        public static async Task<Response> FetchAsync(IAccount account)
         {
             var client = Service.JsonHttpClient.GetInstance(account);
             var response = await client.PostJsonAsync<Response>("postalandlogistics/parcel/international/taric");

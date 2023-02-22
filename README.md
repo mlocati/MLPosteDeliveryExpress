@@ -10,13 +10,6 @@ In order to use this library, you need a Poste Delivery Business contract with P
 
 This library is written in .Net 6.
 
-## Sandbox / Test environment
-
-This library can call the APIs by using a sandbox (that is, a test environment).
-By default, the test environment is used when the `DEBUG` directive is defined (`#define DEBUG`), which is true when developing in Visual Studio with the `Debug` configuration.
-
-You can manually control the use of the sandbox by setting the `MLPosteDeliveryExpress.Options.Sandbox` property.
-
 ## Logging the communications with the API server
 
 You can hook the MLPosteDeliveryExpress.Options.VerboseOutput` event, for example:
@@ -35,6 +28,9 @@ You'll need the API credentials and the code of the Cost Center (it's something 
 In order to get these details you need to go to https://www.mypostedeliverybusiness.it/offertaunica/
 
 Create a `MLPosteDeliveryExpress.Account` instance with these details.
+
+You can also use the account MLPosteDeliveryExpress.Account.Sandbox: in this case, the library will use the sandbox API servers (that is, a test environment).
+
 
 ## Countries
 
