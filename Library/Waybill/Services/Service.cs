@@ -22,8 +22,7 @@ namespace MLPosteDeliveryExpress.Waybill.Services
 
         public IService Create(params object[] args)
         {
-            var instance = Activator.CreateInstance(this.Type, args) as IService;
-            if (instance == null)
+            if (Activator.CreateInstance(this.Type, args) is not IService instance)
             {
                 throw new Exception("This shouldn't happen");
             }

@@ -17,6 +17,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>Poste;Italiane;PosteItaliane;Delivery;Express;DeliveryExpress</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <NeutralLanguage>en</NeutralLanguage>
     <Version>0.2.1</Version>
   </PropertyGroup>
 

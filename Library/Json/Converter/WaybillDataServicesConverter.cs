@@ -36,25 +36,13 @@ namespace MLPosteDeliveryExpress.Json.Converter
                 {
                     break;
                 }
-                var code = reader.TokenType == JsonTokenType.PropertyName ? reader.GetString() : null;
-                if (code == null)
-                {
-                    throw new InvalidDataException();
-                }
+                var code = (reader.TokenType == JsonTokenType.PropertyName ? reader.GetString() : null) ?? throw new InvalidDataException();
                 if (!reader.Read())
                 {
                     throw new InvalidDataException();
                 }
-                var service = Waybill.Services.Service.GetByCode(code);
-                if (service == null)
-                {
-                    throw new InvalidDataException($"Unrecognized service code: {code}");
-                }
-                var method = service.Type.GetMethod("Unserialize", BindingFlags.Static | BindingFlags.Public);
-                if (method == null)
-                {
-                    throw new InvalidDataException($"The IService {service.Type.Name} doesn't implement the Unserialize static method");
-                }
+                var service = Waybill.Services.Service.GetByCode(code) ?? throw new InvalidDataException($"Unrecognized service code: {code}");
+                var method = service.Type.GetMethod("Unserialize", BindingFlags.Static | BindingFlags.Public) ?? throw new InvalidDataException($"The IService {service.Type.Name} doesn't implement the Unserialize static method");
                 var iservice = method.CreateDelegate<UnserializerDelegate>(null)(ref reader, options);
                 result.Add(iservice);
             }
