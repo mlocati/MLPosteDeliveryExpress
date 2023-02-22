@@ -69,7 +69,7 @@ namespace Test
             var request = new Container
             {
                 CostCenterCode = Account.SANDBOX_COST_CENTER_CODE,
-                ShipmentDate = new DateTime(2020, 11, 26, 09, 2, 20, 986),
+                ShipmentDate = new DateTime(2020, 11, 26, 8, 2, 20, 986, DateTimeKind.Utc).ToLocalTime(),
             };
             request.Waybills.Add(waybill);
             var actualJson = JsonSerializer.Serialize(request, Creator.JsonSerializerOptionsCreator.Value);
