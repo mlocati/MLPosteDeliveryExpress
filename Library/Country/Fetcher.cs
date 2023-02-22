@@ -5,24 +5,24 @@ namespace MLPosteDeliveryExpress.Country
 {
     public class Fetcher
     {
-        public static Response Fetch(Account account)
+        public static Response Fetch(IAccount account)
         {
             return Fetch(account, true);
         }
 
-        public static Response Fetch(Account account, bool includeItaly)
+        public static Response Fetch(IAccount account, bool includeItaly)
         {
             using var fetcher = FetchAsync(account, includeItaly);
             fetcher.Wait();
             return fetcher.Result;
         }
 
-        public static Task<Response> FetchAsync(Account account)
+        public static Task<Response> FetchAsync(IAccount account)
         {
             return FetchAsync(account, true);
         }
 
-        public static async Task<Response> FetchAsync(Account account, bool includeItaly)
+        public static async Task<Response> FetchAsync(IAccount account, bool includeItaly)
         {
             var client = Service.JsonHttpClient.GetInstance(account);
             var response = await client.PostJsonAsync<Response>("postalandlogistics/parcel/international/nations");

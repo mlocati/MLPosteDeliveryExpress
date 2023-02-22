@@ -3,9 +3,9 @@ using System.ComponentModel;
 
 namespace MLPosteDeliveryExpress
 {
-    public class Account : ICloneable
+    public class Account : IAccount, ICloneable
     {
-        public const string SANDBOX_COST_CENTER_CODE = "CDC-00070964";
+        public static readonly SandboxAccount Sandbox = new();
 
         [DisplayName("Client ID")]
         public string ClientID { get; set; }

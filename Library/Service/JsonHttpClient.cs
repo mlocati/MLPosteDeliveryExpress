@@ -12,10 +12,6 @@ namespace MLPosteDeliveryExpress.Service
 {
     internal class JsonHttpClient
     {
-        private const string CLIENTID_SANDBOX = "c7cd7028-0f4c-4623-99b2-a0c088947be5";
-
-        private const string SECRETID_SANDBOX = "7yh_PwK3Q9X.d_T4-U.YG_S04gyEBcY.36";
-
         private const string BASEADDRESS_SANDBOX = "https://apid.gp.posteitaliane.it/dev/kindergarden/";
 
         private const string BASEADDRESS_PRODUCTION = "https://apiw.gp.posteitaliane.it/gp/internet/";
@@ -26,52 +22,33 @@ namespace MLPosteDeliveryExpress.Service
 
         private static readonly TimeSpan ACCESSTOKEN_EXPIRATION_THRESHOLD = new(0, 1, 0);
 
-        private static readonly Dictionary<KeyValuePair<Account, bool>, JsonHttpClient> Instances = new();
+        private static readonly Dictionary<string, JsonHttpClient> Instances = new();
 
-        public static JsonHttpClient GetInstance(Account account)
+        public static JsonHttpClient GetInstance(IAccount account)
         {
-            return GetInstance(account, Options.Sandbox);
-        }
-
-        public static JsonHttpClient GetInstance(Account account, bool sandbox)
-        {
-            var instance = ActuallyGetInstance(account, sandbox);
-            if (instance == null)
+            var key = $"{account.ClientID}\0{account.ClientSecret}\0{account.CostCenterCode}";
+            if (Instances.ContainsKey(key))
             {
-                lock (Instances)
-                {
-                    instance = ActuallyGetInstance(account, sandbox);
-                    if (instance == null)
-                    {
-                        instance = new JsonHttpClient(account, sandbox);
-                        Instances.Add(new KeyValuePair<Account, bool>(account, sandbox), instance);
-                    }
-                }
+                return Instances[key];
             }
-            return instance;
-        }
-
-        private static JsonHttpClient? ActuallyGetInstance(Account account, bool sandbox)
-        {
-            foreach (var key in Instances.Keys)
+            lock (Instances)
             {
-                if (key.Key == account && key.Value == sandbox)
+                if (Instances.ContainsKey(key))
                 {
                     return Instances[key];
                 }
+                var instance = new JsonHttpClient(account);
+                Instances.Add(key, instance);
+                return instance;
             }
-            return null;
         }
 
-        private readonly bool Sandbox;
-
-        private readonly Account Account;
+        private readonly IAccount Account;
 
         private GeneratedToken? CurrentToken = null;
 
-        private JsonHttpClient(Account account, bool sandbox)
+        private JsonHttpClient(IAccount account)
         {
-            this.Sandbox = sandbox;
             this.Account = account;
         }
 
@@ -128,10 +105,10 @@ namespace MLPosteDeliveryExpress.Service
         {
             var client = new HttpClient()
             {
-                BaseAddress = new Uri(this.Sandbox ? BASEADDRESS_SANDBOX : BASEADDRESS_PRODUCTION),
+                BaseAddress = new Uri(this.Account is SandboxAccount ? BASEADDRESS_SANDBOX : BASEADDRESS_PRODUCTION),
             };
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Add("POSTE_ClientID", this.Sandbox ? CLIENTID_SANDBOX : this.Account.ClientID);
+            client.DefaultRequestHeaders.Add("POSTE_ClientID", this.Account.ClientID);
             return client;
         }
 
@@ -153,9 +130,9 @@ namespace MLPosteDeliveryExpress.Service
         {
             var payload = new
             {
-                clientId = this.Sandbox ? CLIENTID_SANDBOX : Account.ClientID,
-                secretId = this.Sandbox ? SECRETID_SANDBOX : Account.ClientSecret,
-                scope = this.Sandbox ? ACCESSTOKEN_GENERATIONSCOPE_SANDBOX : ACCESSTOKEN_GENERATIONSCOPE_PRODUCTION,
+                clientId = this.Account.ClientID,
+                secretId = this.Account.ClientSecret,
+                scope = this.Account is SandboxAccount ? ACCESSTOKEN_GENERATIONSCOPE_SANDBOX : ACCESSTOKEN_GENERATIONSCOPE_PRODUCTION,
                 grantType = "client_credentials",
             };
             var response = await this.DoPostJsonAsync<TokenGenerationResponse>("user/sessions", payload, false, null);

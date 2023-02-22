@@ -6,17 +6,6 @@ namespace MLPosteDeliveryExpress
     {
         public static event EventHandler<string>? VerboseOutput;
 
-        public static bool Sandbox { get; set; }
-
-        static Options()
-        {
-#if DEBUG
-            Sandbox = true;
-#else
-            Sandbox = false;
-#endif
-        }
-
         internal static void OnVerboseOutput(object sender, string message)
         {
             Options.VerboseOutput?.Invoke(sender, message);
