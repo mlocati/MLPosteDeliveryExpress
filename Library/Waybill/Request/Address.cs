@@ -125,7 +125,7 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         /// Nel caso del mittente: sono le uniche note che vengono stampate.
         /// Nel caso del destinatario: non vengono stampate, utilizzare Notes del mittente.
         /// </summary>
-        [MaxLength(30)]
+        [MaxLength(20)]
         [JsonPropertyName("note1")]
         [DisplayName("Notes (1)")]
         public string Notes1 { get; set; } = "";
@@ -134,7 +134,7 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         /// Campo a disposizione dell'utente.
         /// Non vengono stampate, utilizzare Notes del mittente.
         /// </summary>
-        [MaxLength(30)]
+        [MaxLength(20)]
         [JsonPropertyName("note2")]
         [DisplayName("Notes (2)")]
         public string Notes2 { get; set; } = "";
