@@ -4,11 +4,13 @@
 
 This project contains an *UNOFFICIAL* library to use the Poste Italiane Delivery Express API.
 
+
 ## Requirements
 
 In order to use this library, you need a Poste Delivery Business contract with Poste Italiane.
 
 This library is written in .Net 6.
+
 
 ## Logging the communications with the API server
 
@@ -19,8 +21,19 @@ MLPosteDeliveryExpress.Options.VerboseOutput += (object sender, string message) 
 {
     System.Console.WriteLine(message);
 };
-
 ```
+
+## Configuring a proxy and any other HTTP client properties
+
+If you need to configure the HTTP Client (for instance because you need to set up a proxy), you can use some code like this:
+
+```c#
+MLPosteDeliveryExpress.Options.HttpClientInitialization += (object sender, System.Net.Http.HttpClient client) =>
+{
+    // Configure the client here
+};
+```
+
 
 ## Account
 
@@ -41,8 +54,9 @@ For example, Italy has one ISO4 code (`ITA1`), whereas Germany has 3 ISO4 codes 
 You can fetch the list of all the countries with some code like this:
 
 ```c#
-var countries = MLPosteDeliveryExpress.Country.Fetcher.Fetch(account).Countries;
+var countries = (await MLPosteDeliveryExpress.Country.Fetcher.FetchAsync(account)).Countries;
 ```
+
 
 ## Taric
 
@@ -53,8 +67,9 @@ In order to do that, you must use a `taric` code.
 You can fetch all the taric codes, as well as their Italian and English descriptions, with some code like this:
 
 ```c#
-var tarics = MLPosteDeliveryExpress.Taric.Fetcher.Fetch(account).Tarics;
+var tarics = (await MLPosteDeliveryExpress.Taric.Fetcher.FetchAsync(account)).Tarics;
 ```
+
 
 ## Waybill Labels
 
@@ -115,16 +130,17 @@ var request = new MLPosteDeliveryExpress.Waybill.Request.Container
     ShipmentDate = new DateTime(2020, 11, 26, 09, 2, 20, 986),
 };
 request.Waybills.Add(waybill);
-var createdWaybill = MLPosteDeliveryExpress.Waybill.Creator.Create(account, request).Waybills[0];
+var createdWaybill = (await MLPosteDeliveryExpress.Waybill.Creator.CreateAsync(account, request)).Waybills[0];
 ```
 
 You can then fetch and save the waybill to a file with some code like this:
 
 ```c#
-using var stream = MLPosteDeliveryExpress.Waybill.Downloader.Download(createdWaybill);
+using var stream = await MLPosteDeliveryExpress.Waybill.Downloader.DownloadAsync(createdWaybill);
 using var fileStream = System.IO.File.Create(@"C:\waybill.pdf");
 stream.CopyTo(fileStream);
 ```
+
 
 ## Pick-up Booking
 
@@ -150,5 +166,5 @@ var pickupRequest = new MLPosteDeliveryExpress.PickupBooking.Request.Pickup()
         },
     },
 };
-var bookingID = MLPosteDeliveryExpress.PickupBooking.Submitter.Submit(account, pickupRequest);
+var bookingID = await MLPosteDeliveryExpress.PickupBooking.Submitter.SubmitAsync(account, pickupRequest);
 ```

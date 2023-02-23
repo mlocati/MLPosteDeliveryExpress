@@ -23,16 +23,6 @@ namespace MLPosteDeliveryExpress.PickupBooking
         /// </summary>
         /// <exception cref="BookingException">When the communication suceeded, but the server returned an error.</exception>
         /// <exception cref="Exception">If commincation fails.</exception>
-        public static string Submit(IAccount account, Request.Pickup item)
-        {
-            using var getter = SubmitAsync(account, item);
-            getter.Wait();
-            return getter.Result;
-        }
-
-        /// <summary>
-        /// Returns the ID of the pickup booking, or an empty string in case of a Cancel operation.
-        /// </summary>
         public static async Task<string> SubmitAsync(IAccount account, Request.Pickup item)
         {
             var request = new Request.Container();

@@ -27,25 +27,25 @@ namespace MLPosteDeliveryExpress.Service
         public static JsonHttpClient GetInstance(IAccount account)
         {
             var key = $"{account.ClientID}\0{account.ClientSecret}\0{account.CostCenterCode}";
-            if (Instances.ContainsKey(key))
+            if (JsonHttpClient.Instances.TryGetValue(key, out JsonHttpClient? instance))
             {
-                return Instances[key];
+                return instance;
             }
-            lock (Instances)
+            lock (JsonHttpClient.Instances)
             {
-                if (Instances.ContainsKey(key))
+                if (JsonHttpClient.Instances.TryGetValue(key, out instance))
                 {
-                    return Instances[key];
+                    return instance;
                 }
-                var instance = new JsonHttpClient(account);
-                Instances.Add(key, instance);
+                instance = new JsonHttpClient(account);
+                JsonHttpClient.Instances.Add(key, instance);
                 return instance;
             }
         }
 
         private readonly IAccount Account;
 
-        private GeneratedToken? CurrentToken = null;
+        private AccessToken? CurrentAccessToken = null;
 
         private JsonHttpClient(IAccount account)
         {
@@ -67,12 +67,12 @@ namespace MLPosteDeliveryExpress.Service
             return this.DoPostJsonAsync<T>(relativePath, postBody, true, jsonSerializerOptions);
         }
 
-        private async Task<T> DoPostJsonAsync<T>(string relativePath, object postBody, bool addAuthorizationToken, JsonSerializerOptions? jsonSerializerOptions)
+        private async Task<T> DoPostJsonAsync<T>(string relativePath, object postBody, bool addAccessToken, JsonSerializerOptions? jsonSerializerOptions)
         {
+            var accessToken = addAccessToken ? await this.GetAccessTokenAsync() : null;
             using var client = this.CreateClient();
-            if (addAuthorizationToken)
+            if (accessToken != null)
             {
-                var accessToken = await this.GetAccessTokenAsync();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(accessToken);
             }
             Options.OnVerboseOutput(this, new Lazy<string>(() =>
@@ -106,27 +106,29 @@ namespace MLPosteDeliveryExpress.Service
             var client = new HttpClient()
             {
                 BaseAddress = new Uri(this.Account is SandboxAccount ? BASEADDRESS_SANDBOX : BASEADDRESS_PRODUCTION),
+                Timeout = new TimeSpan(0, 0, 30)
             };
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.DefaultRequestHeaders.Add("POSTE_ClientID", this.Account.ClientID);
+            Options.OnHttpClientInitialization(this, client);
             return client;
         }
 
         private async Task<string> GetAccessTokenAsync()
         {
-            if (this.CurrentToken != null)
+            if (this.CurrentAccessToken != null)
             {
-                var timeRemaining = this.CurrentToken.Expiration - DateTime.UtcNow;
+                var timeRemaining = this.CurrentAccessToken.Expiration - DateTime.UtcNow;
                 if (timeRemaining >= ACCESSTOKEN_EXPIRATION_THRESHOLD)
                 {
-                    return CurrentToken.Token;
+                    return this.CurrentAccessToken.Token;
                 }
             }
-            CurrentToken = await GenerateTokenAsync();
-            return CurrentToken.Token;
+            this.CurrentAccessToken = await GenerateAccessTokenAsync();
+            return CurrentAccessToken.Token;
         }
 
-        private async Task<GeneratedToken> GenerateTokenAsync()
+        private async Task<AccessToken> GenerateAccessTokenAsync()
         {
             var payload = new
             {
@@ -144,7 +146,7 @@ namespace MLPosteDeliveryExpress.Service
             {
                 throw new ArgumentOutOfRangeException("ext_expires_in");
             }
-            return new GeneratedToken(response.AccessToken, DateTime.UtcNow.Add(new TimeSpan(0, 0, response.ExpiresIn)));
+            return new AccessToken(response.AccessToken, DateTime.UtcNow.Add(new TimeSpan(0, 0, response.ExpiresIn)));
         }
 
         private class TokenGenerationResponse
@@ -162,12 +164,12 @@ namespace MLPosteDeliveryExpress.Service
             public string AccessToken { get; set; } = "";
         }
 
-        private class GeneratedToken
+        private class AccessToken
         {
             public readonly string Token;
             public readonly DateTime Expiration;
 
-            public GeneratedToken(string token, DateTime expiration)
+            public AccessToken(string token, DateTime expiration)
             {
                 Token = token;
                 Expiration = expiration;

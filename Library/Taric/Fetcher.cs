@@ -5,13 +5,6 @@ namespace MLPosteDeliveryExpress.Taric
 {
     public class Fetcher
     {
-        public static Response Fetch(IAccount account)
-        {
-            using var fetcher = FetchAsync(account);
-            fetcher.Wait();
-            return fetcher.Result;
-        }
-
         public static async Task<Response> FetchAsync(IAccount account)
         {
             var client = Service.JsonHttpClient.GetInstance(account);

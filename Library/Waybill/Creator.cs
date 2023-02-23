@@ -19,13 +19,6 @@ namespace MLPosteDeliveryExpress.Waybill
             WriteIndented = false,
         });
 
-        public static Response.Container Create(IAccount account, Request.Container request)
-        {
-            using var getter = CreateAsync(account, request);
-            getter.Wait();
-            return getter.Result;
-        }
-
         public static async Task<Response.Container> CreateAsync(IAccount account, Request.Container request)
         {
             var client = Service.JsonHttpClient.GetInstance(account);
