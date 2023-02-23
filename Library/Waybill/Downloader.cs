@@ -7,13 +7,6 @@ namespace MLPosteDeliveryExpress.Waybill
 {
     public static class Downloader
     {
-        public static MemoryStream Download(Response.Waybill waybill)
-        {
-            var task = DownloadAsync(waybill);
-            task.Wait();
-            return task.Result;
-        }
-
         public static async Task<MemoryStream> DownloadAsync(Response.Waybill waybill)
         {
             using var client = new HttpClient();

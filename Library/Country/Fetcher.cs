@@ -5,18 +5,6 @@ namespace MLPosteDeliveryExpress.Country
 {
     public class Fetcher
     {
-        public static Response Fetch(IAccount account)
-        {
-            return Fetch(account, true);
-        }
-
-        public static Response Fetch(IAccount account, bool includeItaly)
-        {
-            using var fetcher = FetchAsync(account, includeItaly);
-            fetcher.Wait();
-            return fetcher.Result;
-        }
-
         public static Task<Response> FetchAsync(IAccount account)
         {
             return FetchAsync(account, true);

@@ -48,7 +48,7 @@ namespace MLPosteDeliveryExpress.Waybill.Services
 
         public static Service? GetByCode(string code)
         {
-            return Service.Dictionary.ContainsKey(code) ? Service.Dictionary[code] : null;
+            return Service.Dictionary.TryGetValue(code, out Service? service) ? service : null;
         }
 
         private static Dictionary<string, Service>? _dictionary = null;
@@ -80,9 +80,9 @@ namespace MLPosteDeliveryExpress.Waybill.Services
                     throw new Exception($"The IService {type.Name} isn't actually an IService?");
                 }
                 var service = new Service(type, emptyInstance);
-                if (dictionary.ContainsKey(service.Code))
+                if (dictionary.TryGetValue(service.Code, out Service? existingService))
                 {
-                    throw new Exception($"The IService {type.Name} and the IService {dictionary[service.Code].Type.Name} share the same code ({service.Code})");
+                    throw new Exception($"The IService {type.Name} and the IService {existingService.Type.Name} share the same code ({service.Code})");
                 }
                 dictionary.Add(service.Code, service);
             }
