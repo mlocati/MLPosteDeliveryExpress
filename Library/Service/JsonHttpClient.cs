@@ -54,28 +54,28 @@ namespace MLPosteDeliveryExpress.Service
 
         public Task<T> PostJsonAsync<T>(string relativePath)
         {
-            return this.DoPostJsonAsync<T>(relativePath, "", true, null);
+            return this.DoPostJsonAsync<T>(relativePath, "", false, null);
         }
 
         public Task<T> PostJsonAsync<T>(string relativePath, object postBody)
         {
-            return this.DoPostJsonAsync<T>(relativePath, postBody, true, null);
+            return this.DoPostJsonAsync<T>(relativePath, postBody, false, null);
         }
 
         public Task<T> PostJsonAsync<T>(string relativePath, object postBody, JsonSerializerOptions jsonSerializerOptions)
         {
-            return this.DoPostJsonAsync<T>(relativePath, postBody, true, jsonSerializerOptions);
+            return this.DoPostJsonAsync<T>(relativePath, postBody, false, jsonSerializerOptions);
         }
 
-        private async Task<T> DoPostJsonAsync<T>(string relativePath, object postBody, bool addAccessToken, JsonSerializerOptions? jsonSerializerOptions)
+        private async Task<T> DoPostJsonAsync<T>(string relativePath, object postBody, bool isAccessTokenGeneration, JsonSerializerOptions? jsonSerializerOptions)
         {
-            var accessToken = addAccessToken ? await this.GetAccessTokenAsync() : null;
+            var accessToken = isAccessTokenGeneration ? null : await this.GetAccessTokenAsync();
             using var client = this.CreateClient();
             if (accessToken != null)
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(accessToken);
             }
-            Options.OnVerboseOutput(this, new Lazy<string>(() =>
+            Options.OnVerboseOutput(this, new Lazy<Service.Message>(() =>
             {
                 JsonSerializerOptions logOptions;
                 if (jsonSerializerOptions == null)
@@ -87,7 +87,8 @@ namespace MLPosteDeliveryExpress.Service
                     logOptions = new JsonSerializerOptions(jsonSerializerOptions);
                 }
                 logOptions.WriteIndented = true;
-                return $"Sending JSON to {relativePath}:\n{JsonSerializer.Serialize(postBody, logOptions)}";
+
+                return new(isAccessTokenGeneration ? Message.MessageType.TokenRequestJson : Message.MessageType.RequestJson, JsonSerializer.Serialize(postBody, logOptions));
             }));
             using var response = await client.PostAsJsonAsync(relativePath, postBody, jsonSerializerOptions);
             using var responseStream = response.Content.ReadAsStream();
@@ -97,7 +98,8 @@ namespace MLPosteDeliveryExpress.Service
             {
                 throw new HttpRequestException($"Invalid response code when invoking {relativePath}.\n.Response code: ({response.StatusCode})\n{responseText}");
             }
-            Options.OnVerboseOutput(this, responseText);
+
+            Options.OnVerboseOutput(this, new Service.Message(isAccessTokenGeneration ? Message.MessageType.TokenResponseJson : Message.MessageType.ResponseJson, responseText));
             return JsonSerializer.Deserialize<T>(responseText) ?? throw new HttpRequestException($"Invalid response when invoking {relativePath}");
         }
 
@@ -137,7 +139,7 @@ namespace MLPosteDeliveryExpress.Service
                 scope = this.Account is SandboxAccount ? ACCESSTOKEN_GENERATIONSCOPE_SANDBOX : ACCESSTOKEN_GENERATIONSCOPE_PRODUCTION,
                 grantType = "client_credentials",
             };
-            var response = await this.DoPostJsonAsync<TokenGenerationResponse>("user/sessions", payload, false, null);
+            var response = await this.DoPostJsonAsync<TokenGenerationResponse>("user/sessions", payload, true, null);
             if (response.TokenType != "Bearer")
             {
                 throw new ArgumentOutOfRangeException("token_type");
