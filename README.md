@@ -17,9 +17,9 @@ This library is written in .Net 6.
 You can hook the MLPosteDeliveryExpress.Options.VerboseOutput` event, for example:
 
 ```c#
-MLPosteDeliveryExpress.Options.VerboseOutput += (object sender, string message) =>
+MLPosteDeliveryExpress.Options.VerboseOutput += (object sender, MLPosteDeliveryExpress.Service.Message message) =>
 {
-    System.Console.WriteLine(message);
+    System.Console.WriteLine(message.Data);
 };
 ```
 
