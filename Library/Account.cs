@@ -16,6 +16,10 @@ namespace MLPosteDeliveryExpress
         [DisplayName("Cost Center Code")]
         public string CostCenterCode { get; set; }
 
+        public Account()
+            : this("", "", "")
+        { }
+
         public Account(string clientID, string clientSecret, string costCenterCode)
         {
             this.ClientID = clientID;
