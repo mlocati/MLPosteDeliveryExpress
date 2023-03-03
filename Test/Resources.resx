@@ -130,7 +130,7 @@
       "data": {
         "declared": [
           {
-            "weight": "10",
+            "weight": "12345",
             "height": "10",
             "length": "30",
             "width": "25"

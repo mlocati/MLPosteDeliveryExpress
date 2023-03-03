@@ -73,7 +73,7 @@ namespace Test {
         ///      &quot;data&quot;: {
         ///        &quot;declared&quot;: [
         ///          {
-        ///            &quot;weight&quot;: &quot;10&quot;,
+        ///            &quot;weight&quot;: &quot;12345&quot;,
         ///            &quot;height&quot;: &quot;10&quot;,
         ///            &quot;length&quot;: &quot;30&quot;,
         ///            &quot;width&quot;: &quot;25&quot;
@@ -82,7 +82,7 @@ namespace Test {
         ///        &quot;content&quot;: &quot;contenuto&quot;,
         ///        &quot;services&quot;: {},
         ///        &quot;sender&quot;: {
-        ///          &quot;zipCode&quot;: [stringa troncata]&quot;;.
+        ///          &quot;zipCod [stringa troncata]&quot;;.
         /// </summary>
         internal static string WaybillGenerationTests_request_json {
             get {

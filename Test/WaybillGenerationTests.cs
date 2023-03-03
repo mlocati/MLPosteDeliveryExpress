@@ -13,7 +13,7 @@ namespace Test
     public class WaybillGenerationTests
     {
         [TestMethod]
-        public async void GenerationWorks()
+        public void GenerationWorks()
         {
             var account = Account.Sandbox;
             var waybill = new Waybill()
@@ -63,7 +63,7 @@ namespace Test
                 Width = 25,
                 Height = 10,
                 Length = 30,
-                Weight = 10,
+                Weight = 12345,
             });
             var request = new Container
             {
@@ -73,12 +73,12 @@ namespace Test
             request.Waybills.Add(waybill);
             var actualJson = JsonSerializer.Serialize(request, Creator.JsonSerializerOptionsCreator.Value);
             AssertSameJson(Resources.WaybillGenerationTests_request_json, actualJson);
-            var createdWaybills = (await Creator.CreateAsync(account, request)).Waybills;
+            var createdWaybills = Creator.CreateAsync(account, request).ConfigureAwait(false).GetAwaiter().GetResult().Waybills;
             Assert.IsNotNull(createdWaybills);
             Assert.AreEqual(1, createdWaybills.Count);
             var createdWayBill = createdWaybills[0];
             Assert.IsFalse(string.IsNullOrEmpty(createdWayBill.Code));
-            using var pdfStream = await Downloader.DownloadAsync(createdWayBill);
+            using var pdfStream = Downloader.DownloadAsync(createdWayBill).ConfigureAwait(false).GetAwaiter().GetResult();
             using var pdfReader = new StreamReader(pdfStream, Encoding.ASCII, false);
             var line = pdfReader.ReadLine();
             Assert.IsFalse(string.IsNullOrEmpty(line));

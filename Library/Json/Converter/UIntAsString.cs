@@ -14,7 +14,7 @@ namespace MLPosteDeliveryExpress.Json.Converter
 
         public override void Write(Utf8JsonWriter writer, uint value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(value.ToString("N0", CultureInfo.InvariantCulture));
+            writer.WriteStringValue(value.ToString(CultureInfo.InvariantCulture));
         }
     }
 }
