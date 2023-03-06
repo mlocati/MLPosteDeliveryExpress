@@ -48,6 +48,7 @@ namespace MLPosteDeliveryExpress.Waybill.Services
         }
 
 #pragma warning disable IDE0060 // Remove unused parameter
+
         protected static UnserializedData ReadDictionary(ref Utf8JsonReader reader, JsonSerializerOptions options)
 #pragma warning restore IDE0060 // Remove unused parameter
         {

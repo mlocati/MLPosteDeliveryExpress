@@ -9,7 +9,7 @@ This project contains an *UNOFFICIAL* library to use the Poste Italiane Delivery
 
 In order to use this library, you need a Poste Delivery Business contract with Poste Italiane.
 
-This library is written in .Net 6.
+This library supports .Net 6 and .Net 7.
 
 
 ## Logging the communications with the API server
@@ -60,7 +60,7 @@ var countries = (await MLPosteDeliveryExpress.Country.Fetcher.FetchAsync(account
 
 ## Taric
 
-For international shipments, you may need to decribe the type of the product being shipped.
+For international shipments, you may need to describe the type of the product being shipped.
 
 In order to do that, you must use a `taric` code.
 
@@ -73,7 +73,7 @@ var tarics = (await MLPosteDeliveryExpress.Taric.Fetcher.FetchAsync(account)).Ta
 
 ## Waybill Labels
 
-In order to print labels to be applied to the packages to be shipped, you have to use some code like this:
+In order to print the labels to be applied to the packages to be shipped, you may use some code like this:
 
 ```c#
 var waybill = new MLPosteDeliveryExpress.Waybill.Request.Waybill()
@@ -150,6 +150,7 @@ Once you generated a waybill, you can book a pickup with some code like this:
 var pickupRequest = new MLPosteDeliveryExpress.PickupBooking.Request.Pickup()
 {
     Operation = MLPosteDeliveryExpress.PickupBooking.Operation.Insert,
+    BookingType = MLPosteDeliveryExpress.PickupBooking.BookingType.Single,
     ShipmentId = createdWaybill.Code,
     Where = new()
     {
@@ -167,4 +168,20 @@ var pickupRequest = new MLPosteDeliveryExpress.PickupBooking.Request.Pickup()
     },
 };
 var bookingID = await MLPosteDeliveryExpress.PickupBooking.Submitter.SubmitAsync(account, pickupRequest);
+```
+
+You can also book a multiple pick-up, not associated to a specific waybill.
+In this case, you can leave the `ShipmentId` field empty, and set the `BookingType` field to `MLPosteDeliveryExpress.PickupBooking.BookingType.Multiple`.
+
+
+## List Pick-up Bookings
+
+You can retrieve the list of pick-up bookins with some code like this:
+
+```c#
+var filter = new MLPosteDeliveryExpress.PickupBooking.Request.Filter()
+{
+    DateFrom: System.DateOnly.FromDateTime(System.DateTime.Today),
+};
+var pickupBookings = await MLPosteDeliveryExpress.PickupBooking.Finder(account, filter);
 ```
