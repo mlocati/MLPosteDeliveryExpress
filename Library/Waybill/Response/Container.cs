@@ -24,6 +24,6 @@ namespace MLPosteDeliveryExpress.Waybill.Response
         /// Elenco dei codici oggetto della request.
         /// </summary>
         [JsonPropertyName("waybills")]
-        public IList<Waybill>? Waybills { get; set; } = null;
+        public List<Waybill>? Waybills { get; set; } = null;
     }
 }
