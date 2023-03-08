@@ -18,14 +18,16 @@ namespace MLPosteDeliveryExpress.PickupBooking
                 Filter = filter,
             };
             var client = Service.JsonHttpClient.GetInstance(account);
-            var response = await client.PostJsonAsync<Response.FoundContainer>("postalandlogistics/parcel/pickupReport", request);
+            var response = await client.PostJsonAsync<Response.FoundContainer>("postalandlogistics/parcel/pickupReport", request) ?? throw new Exception("Unable to parse the server response");
             if (response.Success == false)
             {
                 if (response.ErrorCode == "E0003" && (response?.FoundPickupContainer?.Items ?? new()).Count == 0)
                 {
                     return new();
                 }
+#pragma warning disable CS8602
                 throw new BookingException(response.ErrorCode, $"Error {response.ErrorCode} booking a pickup: {response.ErrorDescription}");
+#pragma warning restore CS8602
             }
             return response?.FoundPickupContainer?.Items ?? new();
         }
