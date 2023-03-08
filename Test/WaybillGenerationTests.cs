@@ -1,11 +1,14 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MLPosteDeliveryExpress;
+using MLPosteDeliveryExpress.Service;
 using MLPosteDeliveryExpress.Waybill;
-using MLPosteDeliveryExpress.Waybill.Request;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using static System.Text.Json.JsonElement;
+using Request = MLPosteDeliveryExpress.Waybill.Request;
+using Response = MLPosteDeliveryExpress.Waybill.Response;
+using Services = MLPosteDeliveryExpress.Waybill.Services;
 
 namespace Test
 {
@@ -16,7 +19,7 @@ namespace Test
         public void GenerationWorks()
         {
             var account = Account.Sandbox;
-            var waybill = new Waybill()
+            var waybill = new Request.Waybill()
             {
                 ClientReferenceId = "12312312341",
                 Product = AptusCode.PosteDeliveryBusinessExpress,
@@ -65,17 +68,49 @@ namespace Test
                 Length = 30,
                 Weight = 12345,
             });
-            var request = new Container
+            waybill.Data.Declared.Add(new()
+            {
+                Width = 12,
+                Height = 34,
+                Length = 46,
+                Weight = 78,
+            });
+            waybill.Data.Services.Add(new Services.MultiPack());
+            var request = new Request.Container
             {
                 CostCenterCode = account.CostCenterCode,
                 ShipmentDate = new DateTime(2020, 11, 26, 8, 2, 20, 986, DateTimeKind.Utc).ToLocalTime(),
             };
             request.Waybills.Add(waybill);
-            var actualJson = JsonSerializer.Serialize(request, Creator.JsonSerializerOptionsCreator.Value);
-            AssertSameJson(Resources.WaybillGenerationTests_request_json, actualJson);
-            var createdWaybills = Creator.CreateAsync(account, request).ConfigureAwait(false).GetAwaiter().GetResult().Waybills;
+            string requestJSON = "";
+            string responseJSON = "";
+            EventHandler<Message> messageReceiver = new((object? sender, Message message) =>
+            {
+                switch (message.Type)
+                {
+                    case Message.MessageType.RequestJson:
+                        responseJSON = "";
+                        requestJSON = message.Data;
+                        break;
+
+                    case Message.MessageType.ResponseJson:
+                        responseJSON = message.Data;
+                        break;
+                }
+            });
+            List<Response.Waybill>? createdWaybills;
+            Options.VerboseOutput += messageReceiver;
+            try
+            {
+                createdWaybills = Creator.CreateAsync(account, request).ConfigureAwait(false).GetAwaiter().GetResult().Waybills;
+            }
+            finally
+            {
+                Options.VerboseOutput -= messageReceiver;
+            }
+            WaybillGenerationTests.AssertSameJson(Resources.WaybillGenerationTests_request_json, requestJSON);
             Assert.IsNotNull(createdWaybills);
-            Assert.AreEqual(1, createdWaybills.Count);
+            Assert.AreEqual(2, createdWaybills.Count);
             var createdWayBill = createdWaybills[0];
             Assert.IsFalse(string.IsNullOrEmpty(createdWayBill.Code));
             using var pdfStream = Downloader.DownloadAsync(createdWayBill).ConfigureAwait(false).GetAwaiter().GetResult();

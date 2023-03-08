@@ -134,10 +134,18 @@
             "height": "10",
             "length": "30",
             "width": "25"
+          },
+          {
+            "weight": "78",
+            "height": "34",
+            "length": "46",
+            "width": "12"
           }
         ],
         "content": "contenuto",
-        "services": {},
+        "services": {
+          "APT000945": {}
+        },
         "sender": {
           "zipCode": "00142",
           "addressId": "",

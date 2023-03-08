@@ -141,6 +141,30 @@ using var fileStream = System.IO.File.Create(@"C:\waybill.pdf");
 stream.CopyTo(fileStream);
 ```
 
+If you need to send multiple packages at once, you have to:
+
+1. Add the dimensions and weight of each package to the `waybill.Data.Declared` list:
+   ```c#
+   waybill.Data.Declared.Add(new()
+   {
+       Width = 25,
+       Height = 10,
+       Length = 10,
+       Weight = 10,
+   });
+   waybill.Data.Declared.Add(new()
+   {
+       Width = 50,
+       Height = 60,
+       Length = 70,
+       Weight = 80,
+   });
+   ```
+2. Declare that it's a multi-package shipment:
+   ```c#
+   waybill.Data.Services.Add(new MLPosteDeliveryExpress.Waybill.Services.MultiPack());
+   ```
+3. When you call the `CreateAsync` method, you'll have a waybill instance for every package you declared.
 
 ## Pick-up Booking
 

@@ -77,12 +77,12 @@ namespace Test {
         ///            &quot;height&quot;: &quot;10&quot;,
         ///            &quot;length&quot;: &quot;30&quot;,
         ///            &quot;width&quot;: &quot;25&quot;
-        ///          }
-        ///        ],
-        ///        &quot;content&quot;: &quot;contenuto&quot;,
-        ///        &quot;services&quot;: {},
-        ///        &quot;sender&quot;: {
-        ///          &quot;zipCod [stringa troncata]&quot;;.
+        ///          },
+        ///          {
+        ///            &quot;weight&quot;: &quot;78&quot;,
+        ///            &quot;height&quot;: &quot;34&quot;,
+        ///            &quot;length&quot;: &quot;46&quot;,
+        ///       [stringa troncata]&quot;;.
         /// </summary>
         internal static string WaybillGenerationTests_request_json {
             get {
