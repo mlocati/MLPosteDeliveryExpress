@@ -8,8 +8,7 @@ namespace MLPosteDeliveryExpress.Waybill
 {
     public class Creator
     {
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly Lazy<JsonSerializerOptions> JsonSerializerOptionsCreator = new(() => new JsonSerializerOptions()
+        private static readonly Lazy<JsonSerializerOptions> JsonSerializerOptionsCreator = new(() => new JsonSerializerOptions()
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             IncludeFields = true,
