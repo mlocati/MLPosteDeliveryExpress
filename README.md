@@ -209,3 +209,16 @@ var filter = new MLPosteDeliveryExpress.PickupBooking.Request.Filter()
 };
 var pickupBookings = await MLPosteDeliveryExpress.PickupBooking.Finder(account, filter);
 ```
+
+
+## Tracking
+
+If you want to track the package identified by its waybill code, you can use some code like this:
+
+```c#
+var (tracking, messages) = await MLPosteDeliveryExpress.Tracking.Tracker.TrackAsync(account, createdWayBill.Code);
+```
+
+Where:
+- `tracking` will contain the tracking data
+- `messages` will contain any messages returned by the tracking look-up

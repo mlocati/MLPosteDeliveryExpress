@@ -12,6 +12,12 @@ namespace MLPosteDeliveryExpress.Service
 {
     internal class JsonHttpClient
     {
+        private enum Method
+        {
+            Get,
+            Post,
+        }
+
         private const string BASEADDRESS_SANDBOX = "https://apid.gp.posteitaliane.it/dev/kindergarden/";
 
         private const string BASEADDRESS_PRODUCTION = "https://apiw.gp.posteitaliane.it/gp/internet/";
@@ -52,6 +58,11 @@ namespace MLPosteDeliveryExpress.Service
             this.Account = account;
         }
 
+        public Task<T> GetJsonAsync<T>(string relativePath)
+        {
+            return this.DoRequestJsonAsync<T>(Method.Get, relativePath, "", false, null);
+        }
+
         public Task<T> PostJsonAsync<T>(string relativePath)
         {
             return this.DoPostJsonAsync<T>(relativePath, "", false, null);
@@ -67,7 +78,12 @@ namespace MLPosteDeliveryExpress.Service
             return this.DoPostJsonAsync<T>(relativePath, postBody, false, jsonSerializerOptions);
         }
 
-        private async Task<T> DoPostJsonAsync<T>(string relativePath, object postBody, bool isAccessTokenGeneration, JsonSerializerOptions? jsonSerializerOptions)
+        private Task<T> DoPostJsonAsync<T>(string relativePath, object postBody, bool isAccessTokenGeneration, JsonSerializerOptions? jsonSerializerOptions)
+        {
+            return this.DoRequestJsonAsync<T>(Method.Post, relativePath, postBody, isAccessTokenGeneration, jsonSerializerOptions);
+        }
+
+        private async Task<T> DoRequestJsonAsync<T>(Method method, string relativePath, object postBody, bool isAccessTokenGeneration, JsonSerializerOptions? jsonSerializerOptions)
         {
             var accessToken = isAccessTokenGeneration ? null : await this.GetAccessTokenAsync();
             using var client = this.CreateClient();
@@ -90,13 +106,26 @@ namespace MLPosteDeliveryExpress.Service
 
                 return new(isAccessTokenGeneration ? Message.MessageType.TokenRequestJson : Message.MessageType.RequestJson, JsonSerializer.Serialize(postBody, logOptions));
             }));
-            using var response = await client.PostAsJsonAsync(relativePath, postBody, jsonSerializerOptions);
-            using var responseStream = response.Content.ReadAsStream();
-            using var reader = new StreamReader(responseStream);
-            var responseText = reader.ReadToEnd();
-            if (!response.IsSuccessStatusCode)
+            string responseText;
+            HttpResponseMessage? response = null;
+            try
             {
-                throw new HttpRequestException($"Invalid response code when invoking {relativePath}.\n.Response code: ({response.StatusCode})\n{responseText}");
+                response = method switch
+                {
+                    Method.Get => await client.GetAsync(relativePath),
+                    _ => await client.PostAsJsonAsync(relativePath, postBody, jsonSerializerOptions),
+                };
+                using var responseStream = response.Content.ReadAsStream();
+                using var reader = new StreamReader(responseStream);
+                responseText = reader.ReadToEnd();
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException($"Invalid response code when invoking {relativePath}.\n.Response code: ({response.StatusCode})\n{responseText}");
+                }
+            }
+            finally
+            {
+                response?.Dispose();
             }
 
             Options.OnVerboseOutput(this, new Service.Message(isAccessTokenGeneration ? Message.MessageType.TokenResponseJson : Message.MessageType.ResponseJson, responseText));
