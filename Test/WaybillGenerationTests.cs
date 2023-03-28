@@ -9,6 +9,7 @@ using static System.Text.Json.JsonElement;
 using Request = MLPosteDeliveryExpress.Waybill.Request;
 using Response = MLPosteDeliveryExpress.Waybill.Response;
 using Services = MLPosteDeliveryExpress.Waybill.Services;
+using Tracking = MLPosteDeliveryExpress.Tracking;
 
 namespace Test
 {
@@ -129,6 +130,9 @@ namespace Test
             {
                 try { File.Delete(temporaryFile); } catch { }
             }
+            var (tracking, messages) = Tracking.Tracker.TrackAsync(account, createdWayBill.Code).ConfigureAwait(false).GetAwaiter().GetResult(); ;
+            Assert.AreEqual(0, tracking.Tracking.Count);
+            Assert.AreEqual(1, messages.Count);
         }
 
         private static void AssertSameJson(string expected, string actual)
