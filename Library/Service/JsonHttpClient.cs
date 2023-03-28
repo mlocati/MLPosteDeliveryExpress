@@ -142,11 +142,15 @@ namespace MLPosteDeliveryExpress.Service
             var response = await this.DoPostJsonAsync<TokenGenerationResponse>("user/sessions", payload, true, null);
             if (response.TokenType != "Bearer")
             {
-                throw new ArgumentOutOfRangeException("token_type");
+                if (response.Error.Length > 0 || response.ErrorDescription.Length > 0)
+                {
+                    throw new Exception($"Error generating the access token: {response.Error}{Environment.NewLine}{response.ErrorDescription}");
+                }
+                throw new ArgumentOutOfRangeException("token_type", $"token_type is '{response.TokenType}' instead of 'Bearer'");
             }
             if (response.ExtExpiresIn != response.ExpiresIn)
             {
-                throw new ArgumentOutOfRangeException("ext_expires_in");
+                throw new ArgumentOutOfRangeException("ext_expires_in", $"ext_expires_in is {response.ExtExpiresIn} but expires_in is {response.ExpiresIn}");
             }
             return new AccessToken(response.AccessToken, DateTime.UtcNow.Add(new TimeSpan(0, 0, response.ExpiresIn)));
         }
@@ -164,6 +168,12 @@ namespace MLPosteDeliveryExpress.Service
 
             [JsonPropertyName("access_token")]
             public string AccessToken { get; set; } = "";
+
+            [JsonPropertyName("error")]
+            public string Error { get; set; } = "";
+
+            [JsonPropertyName("error_description")]
+            public string ErrorDescription { get; set; } = "";
         }
 
         private class AccessToken
