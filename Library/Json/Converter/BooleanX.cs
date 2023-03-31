@@ -5,11 +5,10 @@ using System.Text.Json.Serialization;
 
 namespace MLPosteDeliveryExpress.Json.Converter
 {
-    internal class BooleanT : JsonConverter<bool>
+    internal class BooleanX : JsonConverter<bool>
     {
-        private const string TRUE = "T";
+        private const string TRUE = "X";
         private const string FALSE = "";
-        private const string FALSE_FALLBACK = "F";
 
         public override bool Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -17,7 +16,6 @@ namespace MLPosteDeliveryExpress.Json.Converter
             {
                 TRUE => true,
                 FALSE => false,
-                FALSE_FALLBACK => false,
                 _ => throw new InvalidDataException(),
             };
         }
