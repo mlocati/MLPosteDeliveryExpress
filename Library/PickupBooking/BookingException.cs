@@ -102,7 +102,7 @@ namespace MLPosteDeliveryExpress.PickupBooking
         public BookingException(string errorCode, string message)
             : base(message)
         {
-            ErrorCode = errorCode;
+            this.ErrorCode = errorCode;
         }
     }
 }

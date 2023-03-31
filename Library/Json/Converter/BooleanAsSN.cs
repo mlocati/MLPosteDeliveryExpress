@@ -9,6 +9,7 @@ namespace MLPosteDeliveryExpress.Json.Converter
     {
         private const string TRUE = "S";
         private const string FALSE = "N";
+        private const string FALSE_FALLBACK = "";
 
         public override bool Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -16,6 +17,7 @@ namespace MLPosteDeliveryExpress.Json.Converter
             {
                 TRUE => true,
                 FALSE => false,
+                FALSE_FALLBACK => false,
                 _ => throw new InvalidDataException(),
             };
         }
