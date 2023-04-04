@@ -222,3 +222,26 @@ var (tracking, messages) = await MLPosteDeliveryExpress.Tracking.Tracker.TrackAs
 Where:
 - `tracking` will contain the tracking data
 - `messages` will contain any messages returned by the tracking look-up
+
+
+## Deposit
+
+It's possible to fetch the list of packages that failed to be delivered to the recipients:
+
+```c#
+
+var deposits = await MLPosteDeliveryExpress.Deposit.FindAsync(account, new() {
+    DepisitDateFrom = System.DateOnly.FromDateTime(System.DateTime.Today.AddDays(-5)),
+    DepisitDateTo = System.DateOnly.FromDateTime(System.DateTime.Today),
+});
+```
+
+For each deposit, you can take an action:
+
+```c#
+await MLPosteDeliveryExpress.Deposit.Decisor.TakeActionAsync(
+    account,
+    deposit.ShipmentID,
+    MLPosteDeliveryExpress.Deposit.Action.RetryDelivery
+);
+```

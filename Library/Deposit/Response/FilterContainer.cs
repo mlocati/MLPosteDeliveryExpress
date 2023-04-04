@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace MLPosteDeliveryExpress.Deposit.Response
 {
-    internal class Container
+    internal class FilterContainer
     {
         [JsonPropertyName("result")]
         [JsonConverter(typeof(Json.Converter.BooleanOkKo))]

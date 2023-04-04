@@ -12,10 +12,10 @@ namespace MLPosteDeliveryExpress.Deposit
             return response.DepositItem.Deposits;
         }
 
-        internal static async Task<Response.Container> SubmitAsync(IAccount account, Request.Filter filter, bool ignoreNoDataExtracted = true)
+        internal static async Task<Response.FilterContainer> SubmitAsync(IAccount account, Request.Filter filter, bool ignoreNoDataExtracted = true)
         {
             var client = Service.JsonHttpClient.GetInstance(account);
-            var response = await client.PostJsonAsync<Response.Container>("postalandlogistics/parcel/depositsList", filter) ?? throw new Exception("Unable to parse the server response");
+            var response = await client.PostJsonAsync<Response.FilterContainer>("postalandlogistics/parcel/depositsList", filter) ?? throw new Exception("Unable to parse the server response");
             if (response.Result == false)
             {
                 if (!ignoreNoDataExtracted || response.ErrorCode != DepositException.ERRORCODE_NO_DATA_EXTRACTED)
