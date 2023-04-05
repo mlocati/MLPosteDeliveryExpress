@@ -86,7 +86,7 @@ namespace MLPosteDeliveryExpress.Deposit.Response
         /// Indica se la spedizione è svincolabile.
         /// </summary>
         [JsonPropertyName("releasable")]
-        [JsonConverter(typeof(Json.Converter.BooleanAsSN))]
+        [JsonConverter(typeof(Json.Converter.BooleanAsYN))]
         public bool Releasable { get; set; } = false;
 
         /// <summary>
