@@ -1,0 +1,47 @@
+name: Publish new version on nuget.org
+
+on:
+  create:
+    tags:
+      - "*"
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    steps:
+      - name: Check tag
+        id: check
+        if: github.event_name == 'create' && github.event.ref_type == 'tag'
+        env:
+          TAG: ${{ github.event.ref }}
+        run: |
+          if ($Env:TAG -match '^[0-9]+\.[0-9]+\.[0-9]+$') {
+            Write-Output 'ok=1' >> $Env:GITHUB_OUTPUT
+          }
+      - name: Setup .Net
+        if: steps.check.outputs.ok
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+      - name: Checkout
+        if: steps.check.outputs.ok
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        if: steps.check.outputs.ok
+        run: dotnet restore .\Library
+      - name: Build (.NET 6)
+        if: steps.check.outputs.ok
+        run: dotnet publish .\Library --configuration Release --framework net6.0 --nologo
+      - name: Build (.NET 7)
+        if: steps.check.outputs.ok
+        run: dotnet publish .\Library --configuration Release --framework net7.0 --nologo
+      - name: Create NuGet file
+        if: steps.check.outputs.ok
+        run: dotnet pack .\Library --configuration Release --nologo
+      - name: Publish new version
+        if: steps.check.outputs.ok
+        run: >
+          dotnet nuget push
+          .\Library\bin\Release\MLPosteDeliveryExpress.${{ github.event.ref }}.nupkg
+          --api-key ${{ secrets.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
