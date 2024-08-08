@@ -20,6 +20,7 @@ namespace MLPosteDeliveryExpress.Deposit.Response
         /// SVINCOLATA
         /// SCADUTA
         /// RICHIESTO
+        /// SVINCOLOPR
         /// </summary>
         [JsonPropertyName("status")]
         [JsonConverter(typeof(Json.Converter.AnnotatedEnumConverter<Status>))]
