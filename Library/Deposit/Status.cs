@@ -27,5 +27,11 @@ namespace MLPosteDeliveryExpress.Deposit
         /// </summary>
         [EnumMember(Value = "RICHIESTO")]
         ReleaseRequested,
+
+        /// <summary>
+        /// Svincolo proattivo.
+        /// </summary>
+        [EnumMember(Value = "SVINCOLOPR")]
+        ProactiveRelease,
     }
 }
