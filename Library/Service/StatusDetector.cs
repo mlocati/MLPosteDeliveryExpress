@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MLPosteDeliveryExpress.Service
@@ -38,6 +39,14 @@ namespace MLPosteDeliveryExpress.Service
             catch (HttpRequestException x)
             {
                 if (x.StatusCode == null)
+                {
+                    return false;
+                }
+                throw;
+            }
+            catch (JsonException x)
+            {
+                if (x.LineNumber.HasValue && x.LineNumber.Value == 0 && x.BytePositionInLine.HasValue && x.BytePositionInLine.Value == 0)
                 {
                     return false;
                 }
