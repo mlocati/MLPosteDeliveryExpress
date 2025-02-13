@@ -136,7 +136,7 @@ namespace MLPosteDeliveryExpress.Service
         {
             var client = new HttpClient()
             {
-                BaseAddress = new Uri(this.Account is SandboxAccount ? BASEADDRESS_SANDBOX : BASEADDRESS_PRODUCTION),
+                BaseAddress = new Uri(this.Account is ISandboxAccount ? BASEADDRESS_SANDBOX : BASEADDRESS_PRODUCTION),
                 Timeout = new TimeSpan(0, 0, 30)
             };
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -165,7 +165,7 @@ namespace MLPosteDeliveryExpress.Service
             {
                 clientId = this.Account.ClientID,
                 secretId = this.Account.ClientSecret,
-                scope = this.Account is SandboxAccount ? ACCESSTOKEN_GENERATIONSCOPE_SANDBOX : ACCESSTOKEN_GENERATIONSCOPE_PRODUCTION,
+                scope = this.Account is ISandboxAccount ? ACCESSTOKEN_GENERATIONSCOPE_SANDBOX : ACCESSTOKEN_GENERATIONSCOPE_PRODUCTION,
                 grantType = "client_credentials",
             };
             var response = await this.DoPostJsonAsync<TokenGenerationResponse>("user/sessions", payload, true, null);
@@ -173,6 +173,10 @@ namespace MLPosteDeliveryExpress.Service
             {
                 if (response.Error.Length > 0 || response.ErrorDescription.Length > 0)
                 {
+                    if (response.Error == "unauthorized_client")
+                    {
+                        throw new InvalidAuthorizationException(response.ErrorDescription); ;
+                    }
                     throw new Exception($"Error generating the access token: {response.Error}{Environment.NewLine}{response.ErrorDescription}");
                 }
                 throw new ArgumentOutOfRangeException("token_type", $"token_type is '{response.TokenType}' instead of 'Bearer'");

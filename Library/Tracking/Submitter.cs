@@ -28,7 +28,7 @@ namespace MLPosteDeliveryExpress.Tracking
 
                 default:
                     throw new Exception("Unrecognized response (too many shipments)");
-            };
+            }
             List<Response.Message> messages = new();
             foreach (var list1 in response.Return.Messages)
             {
