@@ -1,6 +1,6 @@
 ﻿namespace MLPosteDeliveryExpress
 {
-    public interface ISandboxAccount: IAccount
+    public interface ISandboxAccount : IAccount
     {
     }
 }
