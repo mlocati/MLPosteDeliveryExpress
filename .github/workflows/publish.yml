@@ -35,6 +35,12 @@ jobs:
       - name: Build (.NET 7)
         if: steps.check.outputs.ok
         run: dotnet publish .\Library --configuration Release --framework net7.0 --nologo
+      - name: Build (.NET 8)
+        if: steps.check.outputs.ok
+        run: dotnet publish .\Library --configuration Release --framework net8.0 --nologo
+      - name: Build (.NET 9)
+        if: steps.check.outputs.ok
+        run: dotnet publish .\Library --configuration Release --framework net9.0 --nologo
       - name: Create NuGet file
         if: steps.check.outputs.ok
         run: dotnet pack .\Library --configuration Release --nologo
