@@ -7,7 +7,7 @@ namespace Test
     public class StatusDetectorTest
     {
         [TestMethod]
-        public void DetectionWorks()
+        public void DetectStatus()
         {
             try
             {

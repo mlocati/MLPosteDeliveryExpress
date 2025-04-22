@@ -17,7 +17,7 @@ namespace Test
     public class WaybillGenerationTests
     {
         [TestMethod]
-        public void GenerationWorks()
+        public void GenerateWaybill()
         {
             var account = Account.Sandbox;
             var waybill = new Request.Waybill()

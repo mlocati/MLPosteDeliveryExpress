@@ -7,7 +7,7 @@ namespace Test
     public class DeliveryPointTests
     {
         [TestMethod]
-        public void FinderWorks()
+        public void FindDeliveryPoints()
         {
             var zipCode = "00144";
             var deliveryPointType = MLPosteDeliveryExpress.DeliveryPoint.ServiceType.PuntoPoste;

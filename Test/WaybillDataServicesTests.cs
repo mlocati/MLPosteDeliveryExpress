@@ -9,7 +9,7 @@ namespace Test
     public class WaybillDataServicesTests
     {
         [TestMethod]
-        public void SerializationWorks()
+        public void SerializeWaybill()
         {
             var timeOnly1 = new TimeOnly(8, 30);
             var timeOnly2 = new TimeOnly(14, 59);
