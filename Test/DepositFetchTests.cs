@@ -9,7 +9,7 @@ namespace Test
     public class DepositFetchTests
     {
         [TestMethod]
-        public void FetchingWorks()
+        public void FetchDeposits()
         {
             var filter = new Filter()
             {
