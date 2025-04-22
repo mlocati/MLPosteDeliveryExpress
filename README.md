@@ -253,9 +253,8 @@ You search delivery points (PuntoPoste Locker, Caselle postali, Fermoposta, Punt
 
 ```c#
 var zipCode = "00144";
-var deliveryPointType = MLPosteDeliveryExpress.DeliveryPoint.
 var deliveryPointType = MLPosteDeliveryExpress.DeliveryPoint.ServiceType.PuntoPoste;
-var deliveryPoints = await MLPosteDeliveryExpress.DeliveryPoint.Finder.FindAsync(Account.Sandbox, zipCode, deliveryPointType);
+var deliveryPoints = await MLPosteDeliveryExpress.DeliveryPoint.Finder.FindAsync(account, zipCode, deliveryPointType);
 ```
 
 The `deliveryPoints` will contain a list of the delivery points.
