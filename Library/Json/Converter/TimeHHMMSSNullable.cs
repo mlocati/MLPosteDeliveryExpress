@@ -11,8 +11,8 @@ namespace MLPosteDeliveryExpress.Json.Converter
 
         public override TimeOnly? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            var str = reader.GetString() ?? "";
-            if (string.IsNullOrEmpty(str))
+            var str = reader.GetString()?.Trim(' ') ?? "";
+            if (string.IsNullOrEmpty(str) || str.Equals("-"))
             {
                 return null;
             }
