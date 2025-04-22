@@ -19,6 +19,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <NeutralLanguage>en</NeutralLanguage>
     <Version>1.4.1</Version>
+    <NoWarn>SYSLIB1045</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
