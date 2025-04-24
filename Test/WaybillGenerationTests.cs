@@ -109,7 +109,7 @@ namespace Test
             {
                 Options.VerboseOutput -= messageReceiver;
             }
-            WaybillGenerationTests.AssertSameJson(Resources.WaybillGenerationTests_request_json, requestJSON);
+            WaybillGenerationTests.AssertSameJson(Resources.WaybillGenerationTests_request_json.Replace("[[CDC_SANDBOX]]", account.CostCenterCode), requestJSON);
             Assert.IsNotNull(createdWaybills);
             Assert.AreEqual(2, createdWaybills.Count);
             var createdWayBill = createdWaybills[0];
