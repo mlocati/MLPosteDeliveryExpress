@@ -58,8 +58,8 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         public string? PackagingCode { get; set; } = null;
 
         /// <summary>
-        /// Array di oggetti json i dati degli eventuali articoli.
-        /// Obbligatorio solo per internazionale standard sia UE che EUE.
+        /// Array di oggetti contenenti i dati degli eventuali articoli.
+        // Obbligatorio per i prodotti internazionali APT000904 e APT001013 sia UE che EUE.
         /// </summary>
         [JsonPropertyName("items")]
         public IList<WaybillDataDeclaredItem>? Items { get; set; } = null;

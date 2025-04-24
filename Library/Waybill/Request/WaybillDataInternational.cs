@@ -44,7 +44,7 @@ namespace MLPosteDeliveryExpress.Waybill.Request
 
         /// <summary>
         /// Codice identificativo del tipo di contenuto per internazionale.
-        /// Obbligatorio per prodotto internazionale APT000904.
+        /// Obbligatorio per prodotto internazionale APT000904 e APT001013.
         /// </summary>
         [MaxLength(3)]
         [JsonPropertyName("contentCode")]

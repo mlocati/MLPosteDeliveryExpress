@@ -18,7 +18,7 @@ namespace MLPosteDeliveryExpress.Tracking.Response
         /// Descrizione dell’ufficio che ha tracciato l’evento.
         /// </summary>
         /// <example>Genova (GE)</example>
-        [MaxLength(46)]
+        [MaxLength(202)]
         [JsonPropertyName("officeDescription")]
         public string OfficeDescription { get; set; } = "";
 
