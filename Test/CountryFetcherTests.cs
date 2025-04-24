@@ -10,8 +10,7 @@ namespace Test
         private static IList<Country>? Countries = null;
 
         [ClassInitialize]
-        public static void FetchCountries(TestContext context)
-#pragma warning restore IDE0060 // Remove unused parameter
+        public static void FetchCountries(TestContext _)
         {
             var account = Account.Sandbox;
             CountryFetcherTests.Countries = Fetcher.FetchAsync(account).GetAwaiter().GetResult().Countries;
