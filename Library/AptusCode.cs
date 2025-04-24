@@ -22,13 +22,13 @@ namespace MLPosteDeliveryExpress
         [EnumMember(Value = "APT000903")]
         PosteDeliveryBusinessInternazionaleExpress,
 
+        [EnumMember(Value = "APT001013")]
+        PosteDeliveryBusinessInternationalPlus,
+
         [EnumMember(Value = "APT000962")]
         UnknownAPT000962,
 
         [EnumMember(Value = "APT000971")]
         UnknownAPT000971,
-
-        [EnumMember(Value = "APT001013")]
-        UnknownAPTAPT001013,
     }
 }
