@@ -119,7 +119,7 @@
   </resheader>
   <data name="WaybillGenerationTests_request_json" xml:space="preserve">
     <value>{
-  "costCenterCode": "CDC-00070964",
+  "costCenterCode": "[[CDC_SANDBOX]]",
   "paperless": "false",
   "shipmentDate": "2020-11-26T08:02:20.986+0000",
   "waybills": [

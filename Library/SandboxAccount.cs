@@ -11,7 +11,7 @@ namespace MLPosteDeliveryExpress
         public string ClientSecret { get => "3TW8Q~zWspadrQUNUKhFiu4eCoogittm~ZFK8bv6"; }
 
         [DisplayName("Cost Center Code")]
-        public string CostCenterCode { get => "CDC-00070964"; }
+        public string CostCenterCode { get => "CDC-00073352"; }
 
         internal SandboxAccount()
         {

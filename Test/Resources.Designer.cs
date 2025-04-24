@@ -62,7 +62,7 @@ namespace Test {
         
         /// <summary>
         ///   Cerca una stringa localizzata simile a {
-        ///  &quot;costCenterCode&quot;: &quot;CDC-00070964&quot;,
+        ///  &quot;costCenterCode&quot;: &quot;[[CDC_SANDBOX]]&quot;,
         ///  &quot;paperless&quot;: &quot;false&quot;,
         ///  &quot;shipmentDate&quot;: &quot;2020-11-26T08:02:20.986+0000&quot;,
         ///  &quot;waybills&quot;: [
