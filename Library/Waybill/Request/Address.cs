@@ -43,8 +43,9 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         /// <summary>
         /// CAP.
         /// Se il country è ITA1 viene controllato che il CAP sia di 5 caratteri numerici interi.
+        /// Il CAP straniero fino ad un massimo di 25 caratteri alfanumerici.
         /// </summary>
-        [MaxLength(7)]
+        [MaxLength(25)]
         [JsonPropertyName("zipCode")]
         [DisplayName("Zip Code")]
         public string ZipCode { get; set; } = "";

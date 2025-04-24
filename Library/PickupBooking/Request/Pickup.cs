@@ -23,16 +23,16 @@ namespace MLPosteDeliveryExpress.PickupBooking.Request
         public BookingType BookingType { get; set; } = BookingType.Single;
 
         /// <summary>
-        /// Da non valorizzare.
+        /// Obbligatorio se Operation = Cancel o Operation = Edit
+        /// Valorizzare con il codice prenotazione da modificare (Edit) o eliminare (Cancel)
         /// </summary>
         [MaxLength(20)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
         [JsonPropertyName("bookingId")]
-        public string Reserved1 { get; set; } = "";
+        public string BookingId { get; set; } = "";
 
         /// <summary>
-        /// Valorizzare con il pickupId da eliminare.
-        /// Obbligatorio se Operation è Cancel o Edit.
+        /// Obbligatorio se Operation = Cancel o Operation = Edit
+        /// Valorizzare con l’id ritiro da modificare (Edit) o eliminare (Cancel)
         /// </summary>
         [MaxLength(20)]
         [JsonPropertyName("pickupId")]
@@ -127,5 +127,13 @@ namespace MLPosteDeliveryExpress.PickupBooking.Request
         [EditorBrowsable(EditorBrowsableState.Never)]
         [JsonPropertyName("contentImport")]
         public string Reserved3 { get; set; } = "";
+
+        /// <summary>
+        /// Si vogliono ricevere le notifiche sullo stato di avanza-mento del ritiro?
+        /// La mail usata per la notifica è quella della struttura where.
+        /// </summary>
+        [JsonPropertyName("notify")]
+        [JsonConverter(typeof(BooleanAsYN))]
+        public bool Notify { get; set; } = false;
     }
 }

@@ -180,7 +180,7 @@ namespace MLPosteDeliveryExpress.Country
 
         /// <summary>
         /// Elenco dei codici prodotto ammessi nella nazione.
-        /// Valori posssibili APT000903, APT000904, APT000962 e APT000971.
+        /// Valori posssibili APT000903, APT000904, APT001013, APT000962 e APT000971.
         /// </summary>
 
         [JsonPropertyName("products")]
