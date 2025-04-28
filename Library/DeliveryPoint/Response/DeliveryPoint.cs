@@ -5,6 +5,10 @@ namespace MLPosteDeliveryExpress.DeliveryPoint.Response
 {
     public class DeliveryPoint
     {
+        [JsonPropertyName("serviceType")]
+        [JsonConverter(typeof(Json.Converter.AnnotatedEnumConverter<ServiceType>))]
+        public ServiceType ServiceType { get; set; }
+
         [JsonPropertyName("officeCode")]
         [JsonConverter(typeof(Json.Converter.TrimString))]
         public string OfficeCode { get; set; } = "";
