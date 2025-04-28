@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using DP = MLPosteDeliveryExpress.DeliveryPoint.Response;
+using C = MLPosteDeliveryExpress.Country;
 
 namespace MLPosteDeliveryExpress.Waybill.Request
 {
@@ -52,5 +54,39 @@ namespace MLPosteDeliveryExpress.Waybill.Request
         /// </summary>
         [JsonPropertyName("receiver")]
         public Address Receiver { get; set; } = new();
+
+        public void ApplyDeliveryPoint(DP.DeliveryPoint deliveryPoint)
+        {
+            bool useAddress = true;
+            switch (deliveryPoint.ServiceType)
+            {
+                case DeliveryPoint.ServiceType.PuntoPosteLocker:
+                    this.Services.Add(new MLPosteDeliveryExpress.Waybill.Services.DeliveryToLockerItaly(
+                        deliveryPoint.OfficeCode,
+                        deliveryPoint.OfficeDescription
+                    ));
+                    break;
+
+                case DeliveryPoint.ServiceType.PuntoPoste:
+                    this.Services.Add(new MLPosteDeliveryExpress.Waybill.Services.PuntoPoste(
+                        deliveryPoint.OfficeCode,
+                        deliveryPoint.OfficeDescription
+                    ));
+                    break;
+
+                default:
+                    throw new System.Exception("Unsupported delivery point type: " + deliveryPoint.ServiceType);
+            }
+            if (useAddress)
+            {
+                this.Receiver.Street = deliveryPoint.Address;
+                this.Receiver.StreetNumber = "";
+                this.Receiver.City = deliveryPoint.City;
+                this.Receiver.StateOrProvince = deliveryPoint.Province;
+                this.Receiver.ZipCode = deliveryPoint.ZipCode;
+                this.Receiver.CountryISO4 = C.Country.Italy.Value.ISO4;
+                this.Receiver.CountryName = C.Country.Italy.Value.EnglishName;
+            }
+        }
     }
 }
