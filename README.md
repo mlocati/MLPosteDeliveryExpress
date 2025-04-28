@@ -258,3 +258,12 @@ var deliveryPoints = await MLPosteDeliveryExpress.DeliveryPoint.Finder.FindAsync
 ```
 
 The `deliveryPoints` will contain a list of the delivery points.
+
+In order to use a delivery point when creating a waybill, you can use the `ApplyDeliveryPoint()` method of `waybill.Data`:
+
+```c#
+waybill.Data.ApplyDeliveryPoint(delyveryPoints[0]);
+```
+
+> [!NOTE]
+> Only `PuntoPoste` and `PuntoPosteLocker` delivery point types are supported at the moment.
