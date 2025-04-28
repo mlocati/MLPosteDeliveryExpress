@@ -29,7 +29,9 @@ namespace MLPosteDeliveryExpress.DeliveryPoint
             {
                 throw new Response.Exception(responseReturn.Code);
             }
-            return responseReturn.DeliveryPoints;
+            var deliveryPoints = responseReturn.DeliveryPoints;
+            deliveryPoints.ForEach(dp => dp.ServiceType = serviceType);
+            return deliveryPoints;
         }
     }
 }
