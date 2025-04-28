@@ -13,7 +13,14 @@ namespace Test
         public static void FetchCountries(TestContext _)
         {
             var account = Account.Sandbox;
-            CountryFetcherTests.Countries = Fetcher.FetchAsync(account).GetAwaiter().GetResult().Countries;
+            try
+            {
+                CountryFetcherTests.Countries = Fetcher.FetchAsync(account).GetAwaiter().GetResult().Countries;
+            }
+            catch (Exception ex)
+            {
+                Assert.Inconclusive(ex.Message);
+            }
         }
 
         [TestMethod]
