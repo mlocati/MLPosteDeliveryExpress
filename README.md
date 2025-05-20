@@ -266,4 +266,4 @@ waybill.Data.ApplyDeliveryPoint(delyveryPoints[0]);
 ```
 
 > [!NOTE]
-> Only `PuntoPoste` and `PuntoPosteLocker` delivery point types are supported at the moment.
+> Only `PuntoPoste`, `PuntoPosteLocker`, and , `Fermoposta` delivery point types are supported at the moment.
