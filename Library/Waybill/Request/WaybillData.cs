@@ -74,6 +74,13 @@ namespace MLPosteDeliveryExpress.Waybill.Request
                     ));
                     break;
 
+                case DeliveryPoint.ServiceType.Fermoposta:
+                    this.Services.Add(new MLPosteDeliveryExpress.Waybill.Services.PostalOffice(
+                        deliveryPoint.OfficeCode,
+                        deliveryPoint.OfficeDescription
+                    ));
+                    break;
+
                 default:
                     throw new System.Exception("Unsupported delivery point type: " + deliveryPoint.ServiceType);
             }
