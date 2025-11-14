@@ -98,7 +98,7 @@ namespace MLPosteDeliveryExpress.PickupBooking.Response
         public Status? Status { get; set; } = null;
 
         [JsonPropertyName("timeSlot")]
-        [JsonConverter(typeof(AnnotatedEnumConverter<TimeSlot>))]
+        [JsonConverter(typeof(TimeSlotEnumConverter))]
         public TimeSlot TimeSlot { get; set; } = TimeSlot.MorningOrAfternoon;
 
         [JsonPropertyName("pickupDate")]
