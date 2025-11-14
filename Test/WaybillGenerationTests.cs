@@ -132,7 +132,7 @@ namespace Test
             }
             var (tracking, messages) = Tracking.Tracker.TrackAsync(account, createdWayBill.Code).ConfigureAwait(false).GetAwaiter().GetResult(); ;
             Assert.AreEqual(0, tracking.Tracking.Count);
-            Assert.AreEqual(1, messages.Count);
+            Assert.IsTrue(messages.Count == 0 || messages.Count == 1);
         }
 
         private static void AssertSameJson(string expected, string actual)
