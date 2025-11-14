@@ -12,7 +12,11 @@ namespace MLPosteDeliveryExpress.Json.Converter
         public override TEnum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var stringValue = reader.GetString() ?? throw new InvalidDataException();
-            return Map.Value.StringToEnum[stringValue];
+            if (Map.Value.StringToEnum.TryGetValue(stringValue, out var enumValue))
+            {
+                return enumValue;
+            }
+            throw new System.Collections.Generic.KeyNotFoundException($"The key \"{stringValue}\" is not defined for the type {typeToConvert.FullName}");
         }
 
         public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
