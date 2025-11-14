@@ -12,6 +12,7 @@ namespace MLPosteDeliveryExpress.Json.Converter
         public override TEnum Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             var stringValue = reader.GetString() ?? throw new InvalidDataException();
+            stringValue = this.FixStringValue(stringValue);
             if (Map.Value.StringToEnum.TryGetValue(stringValue, out var enumValue))
             {
                 return enumValue;
@@ -22,6 +23,11 @@ namespace MLPosteDeliveryExpress.Json.Converter
         public override void Write(Utf8JsonWriter writer, TEnum value, JsonSerializerOptions options)
         {
             writer.WriteStringValue(Map.Value.EnumToString[value]);
+        }
+
+        protected virtual string FixStringValue(string str)
+        {
+            return str;
         }
     }
 }
